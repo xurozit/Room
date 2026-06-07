@@ -1,335 +1,2538 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AAU CET-UG Chapter Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0e0e0e;
-    --surface: #171717;
-    --surface2: #1f1f1f;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.12);
-    --text: #f0ede6;
-    --muted: #888;
-    --faint: #444;
-    --bio: #a8d89a;
-    --bio-bg: rgba(168,216,154,0.1);
-    --chem: #89bff5;
-    --chem-bg: rgba(137,191,245,0.1);
-    --phy: #c4a8f5;
-    --phy-bg: rgba(196,168,245,0.1);
-    --high: #f5a889;
-    --high-bg: rgba(245,168,137,0.1);
-    --mid: #f5d889;
-    --mid-bg: rgba(245,216,137,0.1);
-    --low: #888;
-    --low-bg: rgba(136,136,136,0.08);
-    --accent: #f0ede6;
-  }
-
-  html { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; min-height: 100vh; }
-
-  body { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
-
-  /* Header */
-  .header { margin-bottom: 2.5rem; }
-  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
-  .title-block h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--text); }
-  .title-block p { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 300; }
-  .reset-btn { font-family: 'Space Mono', monospace; font-size: 11px; background: none; border: 0.5px solid var(--border2); color: var(--muted); padding: 7px 12px; border-radius: 4px; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-  .reset-btn:hover { color: var(--text); border-color: var(--faint); }
-
-  /* Progress */
-  .progress-section { margin-bottom: 2rem; }
-  .progress-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-  .progress-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-  .progress-count { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); }
-  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--text); border-radius: 2px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
-
-  /* Stats */
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 2rem; }
-  .stat { background: var(--surface); border: 0.5px solid var(--border); border-radius: 8px; padding: 14px 16px; }
-  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Space Mono', monospace; margin-bottom: 6px; }
-  .stat-val { font-family: 'Space Mono', monospace; font-size: 1.6rem; font-weight: 700; color: var(--text); line-height: 1; }
-
-  /* Filters */
-  .filters-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.75rem; align-items: stretch; }
-  .filter-btn { font-size: 12px; font-family: 'Space Mono', monospace; width: max-content; min-width: max-content; padding: 6px 13px; border-radius: 3px; border: 0.5px solid var(--border2); background: none; color: var(--muted); cursor: pointer; transition: color 0.15s, background 0.15s, border-color 0.15s; white-space: nowrap; -webkit-font-smoothing: antialiased; }
-  .filter-btn:hover { color: var(--text); border-color: var(--faint); }
-  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); -webkit-font-smoothing: antialiased; }
-  /* Section label */
-  .section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); padding: 0 0 8px; margin-top: 1.5rem; border-bottom: 0.5px solid var(--border); margin-bottom: 4px; }
-  .section-label:first-child { margin-top: 0; }
-
-  /* Chapter row */
-  .chapter-list { display: flex; flex-direction: column; }
-  .chapter-row { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-bottom: 0.5px solid var(--border); cursor: pointer; transition: background 0.1s; border-radius: 4px; }
-  .chapter-row:hover { background: var(--surface2); }
-  .chapter-row.done { opacity: 0.35; }
-
-  .checkbox { width: 16px; height: 16px; border-radius: 2px; border: 0.5px solid var(--faint); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-  .chapter-row.done .checkbox { background: var(--text); border-color: var(--text); }
-  .checkmark { display: none; width: 10px; height: 10px; }
-  .checkmark path { stroke: var(--bg); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-  .chapter-row.done .checkmark { display: block; }
-
-  .chapter-name { flex: 1; font-size: 13.5px; font-weight: 400; line-height: 1.4; }
-  .chapter-row.done .chapter-name { text-decoration: line-through; color: var(--muted); }
-
-  .tags { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
-  .tag { font-size: 10px; font-family: 'Space Mono', monospace; padding: 3px 7px; border-radius: 2px; font-weight: 400; }
-  .tag-bio { color: var(--bio); background: var(--bio-bg); }
-  .tag-chem { color: var(--chem); background: var(--chem-bg); }
-  .tag-phy { color: var(--phy); background: var(--phy-bg); }
-  .tag-high { color: var(--high); background: var(--high-bg); }
-  .tag-mid { color: var(--mid); background: var(--mid-bg); }
-  .tag-low { color: var(--low); background: var(--low-bg); }
-
-  .qs { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--faint); flex-shrink: 0; min-width: 38px; text-align: right; }
-
-  /* Empty */
-  .empty { text-align: center; padding: 3rem 1rem; color: var(--muted); font-size: 13px; font-family: 'Space Mono', monospace; }
-
-  /* Celebration */
-  @keyframes pop { 0%{transform:scale(0.8);opacity:0} 60%{transform:scale(1.05)} 100%{transform:scale(1);opacity:1} }
-  .celebrate { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--surface); border: 0.5px solid var(--border2); padding: 2rem 2.5rem; border-radius: 8px; text-align: center; z-index: 100; }
-  .celebrate.show { display: block; animation: pop 0.3s ease forwards; }
-  .celebrate h2 { font-family: 'Space Mono', monospace; font-size: 1.1rem; margin-bottom: 8px; }
-  .celebrate p { font-size: 13px; color: var(--muted); }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; }
-  .overlay.show { display: block; }
-
-  @media (max-width: 480px) {
-    .stats { grid-template-columns: repeat(3,1fr); }
-    .stat-val { font-size: 1.2rem; }
-    .tags .tag-bio, .tags .tag-chem, .tags .tag-phy { display: none; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ফালুদা দৌৰ — Faluda Sprint</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='30' fill='%23ff4d6d'/><text y='.75em' font-size='55' x='18' fill='white' font-family='sans-serif' font-weight='bold'>🍹</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="overlay" id="overlay" onclick="closeCelebrate()"></div>
-<div class="celebrate" id="celebrate">
-  <h2>All done.</h2>
-  <p>Every chapter checked off.<br>Now go crush the exam.</p>
-</div>
-
-<header class="header">
-  <div class="header-top">
-    <div class="title-block">
-      <h1>AAU CET-UG<br>Chapter Tracker</h1>
-      <p>BSc Agriculture · Biology · Chemistry · Physics</p>
-    </div>
-    <button class="reset-btn" onclick="resetAll()">Reset all</button>
-  </div>
-
-  <div class="progress-section">
-    <div class="progress-meta">
-      <span class="progress-label">Overall progress</span>
-      <span class="progress-count" id="prog-count">0 / 0</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
-    <div class="stat"><div class="stat-label">Done</div><div class="stat-val" id="s-done">0</div></div>
-    <div class="stat"><div class="stat-label">Left</div><div class="stat-val" id="s-left">0</div></div>
-  </div>
-</header>
-
-<div class="filters-row" id="filters">
-  <button class="filter-btn active" data-f="all">All</button>
-  <button class="filter-btn" data-f="bio">Biology</button>
-  <button class="filter-btn" data-f="chem">Chemistry</button>
-  <button class="filter-btn" data-f="phy">Physics</button>
-  <button class="filter-btn" data-f="high">High priority</button>
-  <button class="filter-btn" data-f="mid">Mid priority</button>
-  <button class="filter-btn" data-f="low">Low priority</button>
-</div>
-
-<div class="chapter-list" id="list"></div>
-
-<script>
-const chapters = [
-  {name:"Biotechnology: Principles and Processes",sub:"bio",q:"3",pri:"high"},
-  {name:"Photosynthesis in Higher Plants",sub:"bio",q:"3",pri:"high"},
-  {name:"Molecular Basis of Inheritance",sub:"bio",q:"2–3",pri:"high"},
-  {name:"Human Reproduction",sub:"bio",q:"2–3",pri:"high"},
-  {name:"Cell – The Unit of Life",sub:"bio",q:"2–3",pri:"high"},
-  {name:"Principles of Inheritance & Variation",sub:"bio",q:"2",pri:"mid"},
-  {name:"Biomolecules",sub:"bio",q:"2",pri:"mid"},
-  {name:"Plant Growth and Development",sub:"bio",q:"2",pri:"mid"},
-  {name:"Sexual Reproduction in Flowering Plants",sub:"bio",q:"2",pri:"mid"},
-  {name:"Cell Cycle and Cell Division",sub:"bio",q:"2",pri:"mid"},
-  {name:"Evolution",sub:"bio",q:"2",pri:"mid"},
-  {name:"Organisms and Populations",sub:"bio",q:"2",pri:"mid"},
-  {name:"Respiration in Plants",sub:"bio",q:"2",pri:"mid"},
-  {name:"Biological Classification",sub:"bio",q:"2",pri:"mid"},
-  {name:"Plant Kingdom",sub:"bio",q:"2",pri:"mid"},
-  {name:"Chemical Coordination and Integration",sub:"bio",q:"2",pri:"mid"},
-  {name:"Human Health and Disease",sub:"bio",q:"1",pri:"low"},
-  {name:"Structural Organisation in Animals",sub:"bio",q:"1",pri:"low"},
-  {name:"Anatomy of Flowering Plants",sub:"bio",q:"1",pri:"low"},
-  {name:"Morphology of Flowering Plant",sub:"bio",q:"1–2",pri:"low"},
-  {name:"Animal Kingdom",sub:"bio",q:"1",pri:"low"},
-  {name:"Biodiversity and Conservation",sub:"bio",q:"1–2",pri:"low"},
-  {name:"Biotechnology and its Applications",sub:"bio",q:"1",pri:"low"},
-  {name:"Ecosystem",sub:"bio",q:"1–2",pri:"low"},
-  {name:"Reproductive Health",sub:"bio",q:"1",pri:"low"},
-  {name:"Locomotion and Movement",sub:"bio",q:"1",pri:"low"},
-  {name:"Breathing and Exchange of Gases",sub:"bio",q:"1",pri:"low"},
-  {name:"Body Fluids and Circulation",sub:"bio",q:"1",pri:"low"},
-  {name:"Excretory Products and their Elimination",sub:"bio",q:"1",pri:"low"},
-  {name:"Neural Control and Coordination",sub:"bio",q:"1",pri:"low"},
-  {name:"Microbes in Human Welfare",sub:"bio",q:"1",pri:"low"},
-  {name:"Chemical Bonding and Molecular Structure",sub:"chem",q:"3–4",pri:"high"},
-  {name:"Classification of Elements & Periodicity",sub:"chem",q:"2–3",pri:"high"},
-  {name:"Structure of Atom",sub:"chem",q:"2–3",pri:"high"},
-  {name:"Thermodynamics",sub:"chem",q:"2–3",pri:"mid"},
-  {name:"The d and f Block Elements",sub:"chem",q:"2–3",pri:"mid"},
-  {name:"Equilibrium",sub:"chem",q:"2",pri:"mid"},
-  {name:"Solutions",sub:"chem",q:"2",pri:"mid"},
-  {name:"Electrochemistry",sub:"chem",q:"2",pri:"mid"},
-  {name:"Chemical Kinetics",sub:"chem",q:"2",pri:"mid"},
-  {name:"Some Basic Concepts of Chemistry",sub:"chem",q:"1–2",pri:"low"},
-  {name:"The p-Block Elements",sub:"chem",q:"1–2",pri:"low"},
-  {name:"Coordination Compounds",sub:"chem",q:"1–2",pri:"low"},
-  {name:"Aldehydes, Ketones and Carboxylic Acids",sub:"chem",q:"1–2",pri:"low"},
-  {name:"Biomolecules (Chem)",sub:"chem",q:"1–2",pri:"low"},
-  {name:"Hydrocarbons",sub:"chem",q:"1–2",pri:"low"},
-  {name:"Haloalkanes and Haloarenes",sub:"chem",q:"1",pri:"low"},
-  {name:"Alcohols, Phenols and Ethers",sub:"chem",q:"1",pri:"low"},
-  {name:"Amines",sub:"chem",q:"1",pri:"low"},
-  {name:"Units and Measurement",sub:"phy",q:"3–4",pri:"high"},
-  {name:"Work, Energy and Power",sub:"phy",q:"2–3",pri:"high"},
-  {name:"Gravitation",sub:"phy",q:"2–3",pri:"high"},
-  {name:"Ray Optics and Optical Instruments",sub:"phy",q:"2–3",pri:"mid"},
-  {name:"Current Electricity",sub:"phy",q:"2",pri:"mid"},
-  {name:"Electrostatic Potential and Capacitance",sub:"phy",q:"2",pri:"mid"},
-  {name:"Semiconductor Electronics",sub:"phy",q:"2",pri:"mid"},
-  {name:"Atoms",sub:"phy",q:"2",pri:"mid"},
-  {name:"Dual Nature of Radiation and Matter",sub:"phy",q:"2",pri:"mid"},
-  {name:"Electromagnetic Waves",sub:"phy",q:"2",pri:"mid"},
-  {name:"Laws of Motion",sub:"phy",q:"2",pri:"mid"},
-  {name:"Moving Charges and Magnetism",sub:"phy",q:"2",pri:"mid"},
-  {name:"Wave Optics",sub:"phy",q:"2",pri:"mid"},
-  {name:"Kinetic Theory of Gases",sub:"phy",q:"1–3",pri:"mid"},
-  {name:"Systems of Particles & Rotational Motion",sub:"phy",q:"1–2",pri:"low"},
-  {name:"Oscillations",sub:"phy",q:"1",pri:"low"},
-  {name:"Motion in a Plane",sub:"phy",q:"1–2",pri:"low"},
-  {name:"Mechanical Properties of Fluids",sub:"phy",q:"1–2",pri:"low"},
-  {name:"Electromagnetic Induction",sub:"phy",q:"1",pri:"low"},
-  {name:"Alternating Current",sub:"phy",q:"1",pri:"low"},
-  {name:"Magnetism and Matter",sub:"phy",q:"1",pri:"low"},
-  {name:"Mechanical Properties of Solids",sub:"phy",q:"1",pri:"low"},
-  {name:"Motion in a Straight Line",sub:"phy",q:"1",pri:"low"},
-  {name:"Nuclei",sub:"phy",q:"1",pri:"low"},
-];
-
-const KEY = 'aau_done_v2';
-let done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'));
-let activeFilter = 'all';
-
-function save() { localStorage.setItem(KEY, JSON.stringify([...done])); }
-
-function getFiltered() {
-  if (activeFilter === 'all') return chapters;
-  if (['bio','chem','phy'].includes(activeFilter)) return chapters.filter(c => c.sub === activeFilter);
-  return chapters.filter(c => c.pri === activeFilter);
-}
-
-function updateStats(list) {
-  const total = list.length;
-  const doneCount = list.filter(c => done.has(c.name)).length;
-  document.getElementById('s-total').textContent = total;
-  document.getElementById('s-done').textContent = doneCount;
-  document.getElementById('s-left').textContent = total - doneCount;
-  document.getElementById('prog-count').textContent = doneCount + ' / ' + total;
-  document.getElementById('prog-fill').style.width = total ? Math.round(doneCount/total*100)+'%' : '0%';
-  if (total > 0 && doneCount === total) {
-    document.getElementById('celebrate').classList.add('show');
-    document.getElementById('overlay').classList.add('show');
-  }
-}
-
-function render() {
-  const list = getFiltered();
-  const container = document.getElementById('list');
-  container.innerHTML = '';
-  if (!list.length) {
-    container.innerHTML = '<div class="empty">No chapters match this filter.</div>';
-    updateStats(list);
-    return;
-  }
-  const groups = {high:[], mid:[], low:[]};
-  list.forEach(c => groups[c.pri].push(c));
-  const groupLabel = {high:'— High priority', mid:'— Mid priority', low:'— Low priority'};
-  ['high','mid','low'].forEach(pri => {
-    if (!groups[pri].length) return;
-    const lbl = document.createElement('div');
-    lbl.className = 'section-label';
-    lbl.textContent = groupLabel[pri];
-    container.appendChild(lbl);
-    groups[pri].forEach(c => {
-      const isDone = done.has(c.name);
-      const row = document.createElement('div');
-      row.className = 'chapter-row' + (isDone ? ' done' : '');
-      row.innerHTML = `
-        <div class="checkbox">
-          <svg class="checkmark" viewBox="0 0 10 10"><path d="M1.5 5l2.5 3 4.5-6"/></svg>
+  <!-- Noise filter overlay -->
+  <svg style="position:fixed;width:0;height:0">
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+  <div class="noise-overlay"></div>
+  <!-- Ambient Glow Backgrounds -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="app-container">
+    <!-- Sidebar / Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="mascot-wrapper">
+          <!-- Custom SVG Faluda Glass mascot -->
+          <svg class="faluda-mascot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Glass rim & body outline -->
+            <path d="M 25,15 L 75,15 L 65,75 L 35,75 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+            <!-- Liquid/layers inside -->
+            <!-- Pistachio/Milk layer -->
+            <path d="M 32.5,25 L 67.5,25 L 60,65 L 40,65 Z" fill="var(--pistachio-light)" opacity="0.65" />
+            <!-- Strawberry/Rose layer at bottom -->
+            <path d="M 39,60 L 61,60 L 58.5,74 L 41.5,74 Z" fill="var(--rose-primary)" opacity="0.75" />
+            <!-- Ice cream dollop -->
+            <path d="M 28,17 C 28,5 45,5 50,12 C 55,5 72,5 72,17 Z" fill="#fff5f6" />
+            <circle cx="50" cy="18" r="3" fill="var(--rose-secondary)" />
+            <!-- Straw -->
+            <line x1="42" y1="5" x2="62" y2="70" stroke="var(--accent-yellow)" stroke-width="4" stroke-linecap="round" />
+            <!-- Glass stand -->
+            <path d="M 45,75 L 55,75 L 55,85 L 45,85 Z" fill="none" stroke="currentColor" stroke-width="3" />
+            <ellipse cx="50" cy="85" rx="18" ry="4" fill="none" stroke="currentColor" stroke-width="3" />
+          </svg>
         </div>
-        <span class="chapter-name">${c.name}</span>
-        <div class="tags">
-          <span class="tag tag-${c.sub}">${c.sub.charAt(0).toUpperCase()+c.sub.slice(1)}</span>
-          <span class="tag tag-${c.pri}">${c.pri.charAt(0).toUpperCase()+c.pri.slice(1)}</span>
+        <div class="brand-text">
+          <h1>ফালুদা দৌৰ</h1>
+          <span class="sub-brand">Faluda Sprint</span>
         </div>
-        <span class="qs">${c.q}Q</span>
-      `;
-      row.addEventListener('click', () => {
-        if (done.has(c.name)) done.delete(c.name);
-        else done.add(c.name);
-        save();
-        render();
-      });
-      container.appendChild(row);
-    });
-  });
-  updateStats(list);
-}
-
-function resetAll() {
-  if (!confirm('Reset all progress?')) return;
-  done.clear();
-  save();
-  render();
-}
-
-function closeCelebrate() {
-  document.getElementById('celebrate').classList.remove('show');
-  document.getElementById('overlay').classList.remove('show');
-}
-
-document.getElementById('filters').addEventListener('click', e => {
-  const btn = e.target.closest('.filter-btn');
-  if (!btn) return;
-  activeFilter = btn.dataset.f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
-  render();
-});
-
-render();
-// Freeze button widths to prevent reflow on active state change
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  const w = btn.getBoundingClientRect().width;
-  btn.style.width = w + 'px';
-});
-</script>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-item active" onclick="switchApp('tasks')" id="tab-tasks">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>Tasks</span>
+        </button>
+        <button class="nav-item" onclick="switchApp('notes')" id="tab-notes">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Notes</span>
+        </button>
+        <button class="nav-item" onclick="switchApp('stats')" id="tab-stats">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          <span>Stats & Sprint</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="system-controls">
+          <button class="control-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+            <svg class="icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <button class="control-btn" id="sound-toggle" onclick="toggleSound()" title="Mute/Unmute Audio feedback">
+            <svg class="icon sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <svg class="icon sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="footer-credit">
+          <p>© 2026 Surajit Laskar</p>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <div class="date-container">
+            <span id="date-display">Sunday, June 7</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Streak Badge -->
+          <div class="streak-badge" title="Daily Sprint Streak">
+            <span class="emoji">🔥</span>
+            <span id="streak-count">0</span>
+          </div>
+          <!-- Clock -->
+          <div class="clock-panel">
+            <span id="clock-time" class="time">23:02:42</span>
+            <div class="progress-bar-container">
+              <div id="seconds-bar" class="progress-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- ══ TASKS VIEW ══ -->
+      <section id="tasks-view" class="view-panel">
+        <div class="view-header">
+          <h2>Sprint Tasks</h2>
+          <p class="subtitle">Complete your tasks to finish your daily sprint.</p>
+        </div>
+        <div class="task-composer-card">
+          <div class="input-row">
+            <input type="text" id="task-input" placeholder="Add a new task..." maxlength="80" autocomplete="off">
+            <button class="add-task-btn" onclick="addTask()" title="Add Task (Enter)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+          
+          <div class="task-meta-row">
+            <div class="priority-selection">
+              <span class="label">Priority:</span>
+              <div class="priority-btns">
+                <button class="prio-btn active" data-p="low" onclick="selectPriority('low')">
+                  <span class="p-dot low"></span>Low
+                </button>
+                <button class="prio-btn" data-p="mid" onclick="selectPriority('mid')">
+                  <span class="p-dot mid"></span>Mid
+                </button>
+                <button class="prio-btn" data-p="high" onclick="selectPriority('high')">
+                  <span class="p-dot high"></span>High
+                </button>
+              </div>
+            </div>
+            
+            <div class="keyboard-tips">
+              <span class="tip"><kbd>Alt</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> Priorities</span>
+            </div>
+          </div>
+        </div>
+        <!-- Task List Navigation & Filters -->
+        <div class="list-controls">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-f="all" onclick="setFilter('all')">
+              All <span id="cnt-all" class="badge"></span>
+            </button>
+            <button class="filter-tab" data-f="active" onclick="setFilter('active')">
+              Active <span id="cnt-active" class="badge"></span>
+            </button>
+            <button class="filter-tab" data-f="done" onclick="setFilter('done')">
+              Done <span id="cnt-done" class="badge"></span>
+            </button>
+          </div>
+          
+          <div class="sort-controls">
+            <button class="ghost-btn" id="sort-btn" onclick="toggleSort()" title="Sort tasks by Priority">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18H3M21 14H3M17 10H3M12 6H3"/></svg>
+              <span>Sort by Priority</span>
+            </button>
+          </div>
+        </div>
+        <!-- Scrollable Task List -->
+        <div class="task-list-wrapper">
+          <ul id="task-list" class="task-list"></ul>
+        </div>
+        <!-- Task Footer -->
+        <div class="view-footer">
+          <span id="task-counter" class="counter">0 tasks remaining</span>
+          <button class="btn danger-outline" id="clear-btn" onclick="clearDone()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            Clear Completed
+          </button>
+        </div>
+      </section>
+      <!-- ══ NOTES VIEW ══ -->
+      <section id="notes-view" class="view-panel" style="display:none;">
+        <!-- Notes List Subview -->
+        <div id="notes-list-view">
+          <div class="view-header">
+            <div class="header-action-row">
+              <div>
+                <h2>Personal Notebook</h2>
+                <p class="subtitle">Capture your thoughts, plans, and recipes.</p>
+              </div>
+              <button class="btn primary-btn" onclick="newNote()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                New Note
+              </button>
+            </div>
+          </div>
+          <!-- Notes Filter Toolbar -->
+          <div class="notes-toolbar">
+            <div class="notes-filter-tabs">
+              <button class="filter-tab active" data-nf="all" onclick="setNoteFilter('all')">
+                All Notes <span id="ncnt-all" class="badge"></span>
+              </button>
+              <button class="filter-tab" data-nf="active" onclick="setNoteFilter('active')">
+                Active <span id="ncnt-active" class="badge"></span>
+              </button>
+              <button class="filter-tab" data-nf="archived" onclick="setNoteFilter('archived')">
+                Archived <span id="ncnt-archived" class="badge"></span>
+              </button>
+            </div>
+            
+            <button class="btn danger-outline text-btn" id="clear-archived-btn" onclick="clearArchived()" style="display:none;">
+              Clear Archived
+            </button>
+          </div>
+          <!-- Notes Grid -->
+          <div class="notes-grid-wrapper">
+            <div id="notes-list" class="notes-grid"></div>
+          </div>
+          <div class="view-footer">
+            <span id="notes-counter" class="counter">0 notes total</span>
+          </div>
+        </div>
+        <!-- Note Editor Subview (Slide-in panel style) -->
+        <div id="note-editor-view" class="note-editor-container" style="display:none;">
+          <div class="editor-header">
+            <button class="btn back-btn" onclick="closeEditor()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Back
+            </button>
+            
+            <div class="editor-actions">
+              <button class="btn secondary-btn" id="archive-toggle-btn" onclick="toggleArchiveCurrent()">
+                Archive
+              </button>
+              <button class="btn danger-outline text-btn" onclick="deleteCurrentNote()">
+                Delete
+              </button>
+            </div>
+          </div>
+          <div class="editor-card" id="editor-card">
+            <!-- Note Color Picker -->
+            <div class="editor-color-picker">
+              <span class="picker-label">Color:</span>
+              <div class="color-options">
+                <button class="color-dot color-default active" data-color="default" onclick="setNoteColor('default')" title="Milk Cream"></button>
+                <button class="color-dot color-rose" data-color="rose" onclick="setNoteColor('rose')" title="Strawberry Rose"></button>
+                <button class="color-dot color-mango" data-color="mango" onclick="setNoteColor('mango')" title="Mango Yellow"></button>
+                <button class="color-dot color-pistachio" data-color="pistachio" onclick="setNoteColor('pistachio')" title="Pistachio Green"></button>
+                <button class="color-dot color-blueberry" data-color="blueberry" onclick="setNoteColor('blueberry')" title="Blueberry Blue"></button>
+              </div>
+            </div>
+            <input type="text" id="note-title-input" placeholder="Title your thoughts..." maxlength="60" autocomplete="off">
+            <textarea id="note-body-input" placeholder="Write something amazing..."></textarea>
+          </div>
+        </div>
+      </section>
+      <!-- ══ STATS & SPRINT VIEW ══ -->
+      <section id="stats-view" class="view-panel" style="display:none;">
+        <div class="view-header">
+          <h2>Sprint Statistics</h2>
+          <p class="subtitle">Track your consistency and monitor your productivity.</p>
+        </div>
+        <!-- Stats Overview Grid -->
+        <div class="stats-overview-grid">
+          <div class="stat-card">
+            <div class="stat-icon rose-tint">🔥</div>
+            <div class="stat-info">
+              <span class="stat-val" id="stats-streak">0 days</span>
+              <span class="stat-lbl">Active Streak</span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon pistachio-tint">✓</div>
+            <div class="stat-info">
+              <span class="stat-val" id="stats-completed">0</span>
+              <span class="stat-lbl">Completed Today</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon mango-tint">📊</div>
+            <div class="stat-info">
+              <span class="stat-val" id="stats-all-time">0</span>
+              <span class="stat-lbl">Total Tasks Done</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue-tint">📅</div>
+            <div class="stat-info">
+              <span class="stat-val" id="stats-days-active">0</span>
+              <span class="stat-lbl">Days Tracked</span>
+            </div>
+          </div>
+        </div>
+        <div class="stats-charts-row">
+          <!-- Circular Progress Card -->
+          <div class="chart-card">
+            <h3>Completion Ratio</h3>
+            <div class="ratio-chart-wrapper">
+              <div class="progress-ring-container">
+                <svg class="progress-ring" width="160" height="160">
+                  <circle class="progress-ring-bg" stroke="var(--border)" stroke-width="12" fill="transparent" r="70" cx="80" cy="80"/>
+                  <circle class="progress-ring-bar" id="ratio-progress-circle" stroke="var(--rose-primary)" stroke-width="12" fill="transparent" r="70" cx="80" cy="80"/>
+                </svg>
+                <div class="progress-ring-text">
+                  <span id="ratio-percent" class="percent">0%</span>
+                  <span class="desc">Done Today</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Heatmap Card -->
+          <div class="chart-card heatmap-card">
+            <h3>Consistency Grid</h3>
+            <p class="chart-subtitle">Your task completions over the last 15 weeks</p>
+            <div class="heatmap-wrapper">
+              <div class="heatmap-grid" id="heatmap-grid"></div>
+              <div class="heatmap-legend">
+                <span>Less</span>
+                <div class="legend-cells">
+                  <div class="legend-cell level-0"></div>
+                  <div class="legend-cell level-1"></div>
+                  <div class="legend-cell level-2"></div>
+                  <div class="legend-cell level-3"></div>
+                </div>
+                <span>More</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- Toast system -->
+  <div class="toast" id="toast">
+    <div class="toast-content">
+      <span id="toast-message">Task removed</span>
+      <button class="toast-undo" onclick="undoDelete()">Undo</button>
+    </div>
+  </div>
+  <div id="stats-bar" class="bottom-stats-banner"></div>
+  <script src="app.js"></script>
 </body>
 </html>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM & CUSTOM PROPERTIES
+   ══════════════════════════════════════ */
+:root {
+  /* Fonts */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-bengali: 'Noto Sans Bengali', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  /* Faluda Color Palette - Light Theme */
+  --bg-primary: #fbf9f5;
+  --bg-secondary: #f4eee2;
+  --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.75);
+  
+  --border: rgba(190, 180, 160, 0.28);
+  --border-focus: var(--rose-primary);
+  
+  --text-primary: #211c18;
+  --text-secondary: #5a5149;
+  --text-muted: #9c8e80;
+  
+  /* Priority/Category Accents */
+  --rose-primary: #ff4d6d;
+  --rose-secondary: #ff85a1;
+  --rose-bg: #fff0f3;
+  
+  --mango-primary: #f7a072;
+  --mango-secondary: #f9c784;
+  --mango-bg: #fef6eb;
+  
+  --pistachio-primary: #52b788;
+  --pistachio-secondary: #74c69d;
+  --pistachio-bg: #effaf3;
+  --blueberry-primary: #4ea8de;
+  --blueberry-secondary: #90e0ef;
+  --blueberry-bg: #f0f8ff;
+  
+  --accent-yellow: #ffb703;
+  --pistachio-light: #b7e4c7;
+  /* Note Specific Palettes */
+  --note-default: #fffaf0;
+  --note-rose: #fff0f3;
+  --note-mango: #fef6eb;
+  --note-pistachio: #effaf3;
+  --note-blueberry: #f0f8ff;
+  --note-border-default: rgba(190, 180, 160, 0.3);
+  --note-border-rose: rgba(255, 77, 109, 0.25);
+  --note-border-mango: rgba(247, 160, 114, 0.25);
+  --note-border-pistachio: rgba(82, 183, 136, 0.25);
+  --note-border-blueberry: rgba(78, 168, 222, 0.25);
+  /* Shadow Design */
+  --shadow-sm: 0 2px 8px rgba(33, 28, 24, 0.04);
+  --shadow-md: 0 10px 30px rgba(33, 28, 24, 0.06);
+  --shadow-lg: 0 20px 50px rgba(33, 28, 24, 0.1);
+  --shadow-glass: 0 8px 32px 0 rgba(190, 180, 160, 0.15);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+}
+/* Dark Mode Overrides */
+[data-theme="dark"] {
+  --bg-primary: #12100e;
+  --bg-secondary: #1d1916;
+  --surface: #1a1614;
+  --surface-glass: rgba(26, 22, 20, 0.75);
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --border-focus: var(--rose-primary);
+  
+  --text-primary: #f5f0eb;
+  --text-secondary: #bfb3a8;
+  --text-muted: #807469;
+  
+  /* Dark Mode Adjustments for Priority Bg */
+  --rose-bg: rgba(255, 77, 109, 0.12);
+  --mango-bg: rgba(247, 160, 114, 0.12);
+  --pistachio-bg: rgba(82, 183, 136, 0.12);
+  --blueberry-bg: rgba(78, 168, 222, 0.12);
+  --note-default: #211c19;
+  --note-rose: #2b1a1c;
+  --note-mango: #2e2017;
+  --note-pistachio: #192720;
+  --note-blueberry: #19232e;
+  --note-border-default: rgba(255, 255, 255, 0.08);
+  --note-border-rose: rgba(255, 77, 109, 0.2);
+  --note-border-mango: rgba(247, 160, 114, 0.2);
+  --note-border-pistachio: rgba(82, 183, 136, 0.2);
+  --note-border-blueberry: rgba(78, 168, 222, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+/* ══════════════════════════════════════
+   RESET & LAYOUT BASE
+   ══════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+/* SVG Noise Overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  filter: url(#noise);
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+}
+/* Background Ambient Orbs */
+.glow-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  opacity: 0.45;
+  pointer-events: none;
+  transition: all 0.6s ease;
+}
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--rose-secondary) 0%, transparent 70%);
+  top: -10%;
+  right: -5%;
+}
+.orb-2 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--pistachio-secondary) 0%, transparent 70%);
+  bottom: -15%;
+  left: -10%;
+}
+[data-theme="dark"] .glow-orb {
+  opacity: 0.2;
+}
+/* ══════════════════════════════════════
+   APP STRUCTURE (SIDEBAR + MAIN)
+   ══════════════════════════════════════ */
+.app-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+/* Sidebar Navigation */
+.sidebar {
+  width: 280px;
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 2.5rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+/* Brand logo / Mascot */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 3.5rem;
+}
+.mascot-wrapper {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--rose-bg);
+  border-radius: var(--radius-sm);
+  color: var(--rose-primary);
+  flex-shrink: 0;
+  padding: 4px;
+  transition: all 0.3s ease;
+}
+.faluda-mascot {
+  width: 100%;
+  height: 100%;
+  color: var(--text-primary);
+}
+.brand-text h1 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.brand-text .sub-brand {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+/* Navigation items */
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-item .icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+  transition: transform 0.25s ease;
+}
+.nav-item:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+.nav-item:hover .icon {
+  transform: translateX(2px);
+}
+.nav-item.active {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+}
+.nav-item.active .icon {
+  opacity: 1;
+  stroke: var(--bg-primary);
+}
+/* Sidebar system control footer */
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.system-controls {
+  display: flex;
+  gap: 10px;
+}
+.control-btn {
+  flex: 1;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.control-btn:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+.control-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+.footer-credit {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+/* Main Dashboard Area */
+.main-content {
+  flex-grow: 1;
+  padding: 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: calc(100% - 280px);
+  overflow-y: auto;
+  max-height: 100vh;
+}
+/* ══════════════════════════════════════
+   TOP APP HEADER (CLOCK, STREAK)
+   ══════════════════════════════════════ */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.date-container {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--rose-bg);
+  border: 1px solid var(--rose-secondary);
+  padding: 6px 12px;
+  border-radius: 99px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--rose-primary);
+  cursor: default;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease;
+}
+.streak-badge:hover {
+  transform: scale(1.05);
+}
+.clock-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.clock-panel .time {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.progress-bar-container {
+  width: 80px;
+  height: 3px;
+  background-color: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: var(--rose-primary);
+  border-radius: 99px;
+  transition: width 0.95s linear;
+}
+/* ══════════════════════════════════════
+   COMMON VIEW PANEL COMPONENTS
+   ══════════════════════════════════════ */
+.view-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.view-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}
+.view-header .subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+/* ══════════════════════════════════════
+   TASKS VIEW - COMPOSER & FILTERS
+   ══════════════════════════════════════ */
+.task-composer-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+.task-composer-card:focus-within {
+  border-color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+}
+.input-row {
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+.input-row input {
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  padding: 8px 4px;
+}
+.input-row input::placeholder {
+  color: var(--text-muted);
+}
+.add-task-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: none;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.add-task-btn:hover {
+  transform: scale(1.05);
+  background-color: var(--rose-primary);
+}
+.add-task-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.task-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.priority-selection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.priority-selection .label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.priority-btns {
+  display: flex;
+  gap: 6px;
+}
+.prio-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.p-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.p-dot.low { background-color: var(--pistachio-primary); }
+.p-dot.mid { background-color: var(--mango-primary); }
+.p-dot.high { background-color: var(--rose-primary); }
+.prio-btn:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--text-muted);
+}
+.prio-btn.active[data-p="low"] {
+  background-color: var(--pistachio-bg);
+  border-color: var(--pistachio-primary);
+  color: var(--pistachio-primary);
+}
+.prio-btn.active[data-p="mid"] {
+  background-color: var(--mango-bg);
+  border-color: var(--mango-primary);
+  color: var(--mango-primary);
+}
+.prio-btn.active[data-p="high"] {
+  background-color: var(--rose-bg);
+  border-color: var(--rose-primary);
+  color: var(--rose-primary);
+}
+.keyboard-tips {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+.keyboard-tips kbd {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 4px;
+  margin: 0 1px;
+}
+/* List Control Panel */
+.list-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.filter-tabs {
+  display: flex;
+  background-color: var(--bg-secondary);
+  padding: 4px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+}
+.filter-tab {
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.filter-tab.active {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+.filter-tab .badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background-color: var(--bg-secondary);
+  padding: 1px 5px;
+  border-radius: 99px;
+  color: var(--text-muted);
+}
+.filter-tab.active .badge {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+}
+.ghost-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.ghost-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.ghost-btn:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+.ghost-btn.active {
+  background-color: var(--rose-bg);
+  border-color: var(--rose-primary);
+  color: var(--rose-primary);
+}
+/* ══════════════════════════════════════
+   TASK LIST & DRAG-AND-DROP
+   ══════════════════════════════════════ */
+.task-list-wrapper {
+  min-height: 250px;
+}
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.task-list li {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+  animation: slideInTask 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes slideInTask {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.task-list li:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--text-muted);
+}
+.task-list li:active {
+  cursor: grabbing;
+}
+.task-list li.dragging {
+  opacity: 0.5;
+  border: 1.5px dashed var(--text-muted);
+  box-shadow: none;
+  background-color: var(--bg-secondary);
+}
+.task-list li.drag-over {
+  border-top: 3px solid var(--rose-primary);
+  margin-top: -2px;
+}
+/* Task Check Circle */
+.check-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid var(--text-muted);
+  background-color: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.check-box::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  border-right: 2.5px solid var(--surface);
+  border-bottom: 2.5px solid var(--surface);
+  transform: translate(-50%, -60%) rotate(45deg) scale(0);
+  opacity: 0;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.task-list li:hover .check-box {
+  border-color: var(--text-primary);
+}
+/* Done Task Styling */
+.task-list li.done {
+  opacity: 0.5;
+}
+.task-list li.done .task-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+.task-list li.done .check-box {
+  background-color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+.task-list li.done .check-box::after {
+  transform: translate(-50%, -60%) rotate(45deg) scale(1);
+  opacity: 1;
+}
+/* Color codes based on Priority */
+.task-list li[data-p="low"] {
+  border-left: 4px solid var(--pistachio-primary);
+}
+.task-list li[data-p="mid"] {
+  border-left: 4px solid var(--mango-primary);
+}
+.task-list li[data-p="high"] {
+  border-left: 4px solid var(--rose-primary);
+}
+.task-list li.completing {
+  animation: completingAnimation 0.35s ease forwards;
+}
+@keyframes completingAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+.task-text {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+  word-break: break-word;
+}
+.task-text[contenteditable="true"] {
+  border-bottom: 1.5px solid var(--rose-primary);
+  outline: none;
+  padding-bottom: 2px;
+}
+/* Delete Button */
+.delete-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.task-list li:hover .delete-btn {
+  opacity: 1;
+}
+.delete-btn:hover {
+  background-color: var(--rose-bg);
+  color: var(--rose-primary);
+}
+.delete-btn svg {
+  width: 14px;
+  height: 14px;
+}
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 4rem 1rem;
+  color: var(--text-muted);
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+.empty-state svg {
+  width: 48px;
+  height: 48px;
+  opacity: 0.4;
+  color: var(--text-muted);
+}
+.empty-state div {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+/* Footer stats & actions */
+.view-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.counter {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn svg {
+  width: 15px;
+  height: 15px;
+}
+.primary-btn {
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+}
+.primary-btn:hover {
+  background-color: var(--rose-primary);
+  transform: translateY(-1px);
+}
+.secondary-btn {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.secondary-btn:hover {
+  background-color: var(--surface);
+  border-color: var(--text-muted);
+}
+.danger-outline {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.danger-outline:hover {
+  background-color: var(--rose-bg);
+  border-color: var(--rose-primary);
+  color: var(--rose-primary);
+}
+/* ══════════════════════════════════════
+   NOTES VIEW - GRID & CARD DESIGNS
+   ══════════════════════════════════════ */
+.header-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.notes-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.notes-filter-tabs {
+  display: flex;
+  gap: 6px;
+}
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 4px 0;
+}
+.notes-grid-wrapper {
+  min-height: 250px;
+}
+/* Note Card */
+.note-card {
+  background-color: var(--note-default);
+  border: 1px solid var(--note-border-default);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  height: 180px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideInTask 0.3s ease both;
+}
+.note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.note-card.color-rose {
+  background-color: var(--note-rose);
+  border-color: var(--note-border-rose);
+}
+.note-card.color-mango {
+  background-color: var(--note-mango);
+  border-color: var(--note-border-mango);
+}
+.note-card.color-pistachio {
+  background-color: var(--note-pistachio);
+  border-color: var(--note-border-pistachio);
+}
+.note-card.color-blueberry {
+  background-color: var(--note-blueberry);
+  border-color: var(--note-border-blueberry);
+}
+.note-card.archived {
+  opacity: 0.5;
+}
+.note-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 20px;
+}
+.note-card-body {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+.note-card-date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+/* Card Actions overlay */
+.note-card-delete {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-xs);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+.note-card:hover .note-card-delete {
+  opacity: 1;
+}
+.note-card-delete:hover {
+  background-color: rgba(255, 77, 109, 0.1);
+  color: var(--rose-primary);
+}
+/* ══════════════════════════════════════
+   NOTE EDITOR VIEW
+   ══════════════════════════════════════ */
+.note-editor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: slideInEditor 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes slideInEditor {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.back-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.back-btn:hover {
+  background-color: var(--bg-secondary);
+}
+.editor-actions {
+  display: flex;
+  gap: 8px;
+}
+.editor-card {
+  background-color: var(--note-default);
+  border: 1px solid var(--note-border-default);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 450px;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+.editor-card.color-rose {
+  background-color: var(--note-rose);
+  border-color: var(--note-border-rose);
+}
+.editor-card.color-mango {
+  background-color: var(--note-mango);
+  border-color: var(--note-border-mango);
+}
+.editor-card.color-pistachio {
+  background-color: var(--note-pistachio);
+  border-color: var(--note-border-pistachio);
+}
+.editor-card.color-blueberry {
+  background-color: var(--note-blueberry);
+  border-color: var(--note-border-blueberry);
+}
+/* Color Picker in Editor */
+.editor-color-picker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: -5px;
+}
+.picker-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+.color-options {
+  display: flex;
+  gap: 10px;
+}
+.color-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+.color-dot:hover {
+  transform: scale(1.15);
+}
+.color-dot.active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--text-primary);
+  transform: translate(-50%, -50%);
+}
+.color-dot.color-default {
+  background-color: #fffaf0;
+  border: 1.5px solid rgba(190, 180, 160, 0.4);
+}
+[data-theme="dark"] .color-dot.color-default {
+  background-color: #211c19;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.color-dot.color-rose {
+  background-color: #ff85a1;
+  border: 1.5px solid rgba(255, 77, 109, 0.2);
+}
+.color-dot.color-mango {
+  background-color: #f9c784;
+  border: 1.5px solid rgba(247, 160, 114, 0.2);
+}
+.color-dot.color-pistachio {
+  background-color: #74c69d;
+  border: 1.5px solid rgba(82, 183, 136, 0.2);
+}
+.color-dot.color-blueberry {
+  background-color: #90e0ef;
+  border: 1.5px solid rgba(78, 168, 222, 0.2);
+}
+#note-title-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  outline: none;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+}
+#note-title-input::placeholder {
+  color: var(--text-muted);
+}
+#note-body-input {
+  width: 100%;
+  flex-grow: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-primary);
+  outline: none;
+  resize: none;
+  line-height: 1.7;
+}
+#note-body-input::placeholder {
+  color: var(--text-muted);
+}
+/* ══════════════════════════════════════
+   STATS VIEW & CHARTS
+   ══════════════════════════════════════ */
+.stats-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.stat-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.rose-tint { background-color: var(--rose-bg); color: var(--rose-primary); }
+.pistachio-tint { background-color: var(--pistachio-bg); color: var(--pistachio-primary); }
+.mango-tint { background-color: var(--mango-bg); color: var(--mango-primary); }
+.blue-tint { background-color: var(--blueberry-bg); color: var(--blueberry-primary); }
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.stat-lbl {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.stats-charts-row {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+}
+.chart-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.chart-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.chart-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: -12px;
+}
+/* Circular Progress Chart */
+.ratio-chart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+.progress-ring-container {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.progress-ring {
+  transform: rotate(-90deg);
+}
+.progress-ring-bar {
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.progress-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.progress-ring-text .percent {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.progress-ring-text .desc {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+/* GitHub Heatmap Grid */
+.heatmap-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.heatmap-grid {
+  display: grid;
+  grid-template-flow: column;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 10px);
+  gap: 4px;
+  margin-top: 4px;
+}
+.heatmap-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: var(--bg-secondary);
+  transition: all 0.2s ease;
+  position: relative;
+}
+.heatmap-cell:hover {
+  transform: scale(1.3);
+  z-index: 5;
+}
+/* Tooltip on cell hover */
+.heatmap-cell::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -6px) scale(0.85);
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.heatmap-cell:hover::before {
+  opacity: 1;
+  transform: translate(-50%, -6px) scale(1);
+}
+.level-0 { background-color: var(--border); }
+.level-1 { background-color: var(--rose-secondary); opacity: 0.45; }
+.level-2 { background-color: var(--rose-secondary); opacity: 0.75; }
+.level-3 { background-color: var(--rose-primary); }
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.legend-cells {
+  display: flex;
+  gap: 3px;
+}
+.legend-cell {
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+}
+/* ══════════════════════════════════════
+   TOAST & FLOATING BAR
+   ══════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translate(-50%, 80px);
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+.toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.toast-undo {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: inherit;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+[data-theme="light"] .toast-undo {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.toast-undo:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+[data-theme="light"] .toast-undo:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.bottom-stats-banner {
+  position: fixed;
+  bottom: 12px;
+  right: 24px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 9;
+}
+/* ══════════════════════════════════════
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .stats-charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+  }
+  .app-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    top: unset;
+  }
+  .brand {
+    margin-bottom: 1.5rem;
+  }
+  .nav-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .nav-item {
+    flex-grow: 1;
+    justify-content: center;
+    padding: 10px;
+    font-size: 0.88rem;
+  }
+  .sidebar-footer {
+    display: none; /* Hide custom toggle in side footer for mobile */
+  }
+  .main-content {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .view-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    text-align: center;
+  }
+  .view-footer .btn {
+    justify-content: center;
+  }
+  .bottom-stats-banner {
+    display: none;
+  }
+}
+// ══════════════════════════════════════
+// STATE & STORAGE INITS
+// ══════════════════════════════════════
+let tasks = JSON.parse(localStorage.getItem('faluda_tasks') || '[]');
+let notes = JSON.parse(localStorage.getItem('faluda_notes') || '[]');
+let stats = JSON.parse(localStorage.getItem('faluda_stats') || '{}');
+// Settings State
+let settings = JSON.parse(localStorage.getItem('faluda_settings') || JSON.stringify({
+  theme: 'dark',
+  soundEnabled: true,
+  streak: 0,
+  lastCompletedDate: null
+}));
+// Local session variables
+let selectedPriority = 'low';
+let activeFilter = 'all';
+let sortByPriority = false;
+let deletedTask = null;
+let deletedIndex = null;
+let toastTimer = null;
+let dragSrcId = null;
+let currentNoteId = null;
+let noteFilter = 'all';
+const priorityOrder = { high: 0, mid: 1, low: 2 };
+// ══════════════════════════════════════
+// SOUND FEEDBACK SYNTHESIZER (WEB AUDIO API)
+// ══════════════════════════════════════
+let audioCtx = null;
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+function playSound(type) {
+  if (!settings.soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    // Gain node for volume control
+    const gain = ctx.createGain();
+    gain.connect(ctx.destination);
+    
+    if (type === 'complete') {
+      // Pleasant bubbly chime (two notes ascending)
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      
+      osc1.type = 'sine';
+      osc2.type = 'triangle';
+      
+      osc1.connect(gain);
+      osc2.connect(gain);
+      
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.15, now + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      
+      osc1.frequency.setValueAtTime(523.25, now); // C5
+      osc1.frequency.setValueAtTime(659.25, now + 0.08); // E5
+      
+      osc2.frequency.setValueAtTime(783.99, now + 0.08); // G5
+      
+      osc1.start(now);
+      osc1.stop(now + 0.35);
+      osc2.start(now + 0.08);
+      osc2.stop(now + 0.35);
+      
+    } else if (type === 'delete') {
+      // Soft woosh/low chime
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.connect(gain);
+      
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      
+      osc.frequency.setValueAtTime(220, now); // A3
+      osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+      
+      osc.start(now);
+      osc.stop(now + 0.25);
+    }
+  } catch (err) {
+    console.error('Audio synthesis failed:', err);
+  }
+}
+// ══════════════════════════════════════
+// TASK ENGINE
+// ══════════════════════════════════════
+function saveTasks() {
+  localStorage.setItem('faluda_tasks', JSON.stringify(tasks));
+}
+function selectPriority(p) {
+  selectedPriority = p;
+  document.querySelectorAll('.prio-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.p === p);
+  });
+}
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.f === f);
+  });
+  renderTasks();
+}
+function toggleSort() {
+  sortByPriority = !sortByPriority;
+  document.getElementById('sort-btn').classList.toggle('active', sortByPriority);
+  renderTasks();
+}
+function addTask() {
+  const input = document.getElementById('task-input');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  tasks.push({
+    text: text,
+    priority: selectedPriority,
+    done: false,
+    id: Date.now()
+  });
+  
+  input.value = '';
+  input.focus();
+  saveTasks();
+  renderTasks();
+  updateStatsAndVisuals();
+}
+function toggleTask(id) {
+  const li = document.querySelector(`li[data-id="${id}"]`);
+  if (!li) return;
+  
+  const t = tasks.find(t => t.id === id);
+  if (!t) return;
+  li.classList.add('completing');
+  
+  setTimeout(() => {
+    t.done = !t.done;
+    if (t.done) {
+      trackCompletion();
+      playSound('complete');
+    } else {
+      untrackCompletion();
+    }
+    saveTasks();
+    renderTasks();
+    updateStatsAndVisuals();
+  }, 200);
+}
+function editTask(id, el) {
+  const t = tasks.find(t => t.id === id);
+  if (!t || t.done) return;
+  
+  const prevText = t.text;
+  el.contentEditable = 'true';
+  el.focus();
+  
+  // Place cursor at the end of the text
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  
+  function finishEdit(cancel) {
+    el.contentEditable = 'false';
+    const newText = el.textContent.trim();
+    if (cancel || !newText) {
+      el.textContent = prevText;
+      return;
+    }
+    t.text = newText;
+    saveTasks();
+  }
+  
+  el.onblur = () => finishEdit(false);
+  el.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      finishEdit(false);
+    }
+    if (e.key === 'Escape') {
+      finishEdit(true);
+    }
+  };
+}
+function deleteTask(id, e) {
+  e.stopPropagation();
+  const idx = tasks.findIndex(t => t.id === id);
+  if (idx === -1) return;
+  
+  deletedTask = tasks[idx];
+  deletedIndex = idx;
+  
+  tasks.splice(idx, 1);
+  saveTasks();
+  renderTasks();
+  showToast('Task removed');
+  playSound('delete');
+  updateStatsAndVisuals();
+}
+function reorderTask(srcId, targetId) {
+  if (srcId === targetId) return;
+  const srcIdx = tasks.findIndex(t => t.id === srcId);
+  const targetIdx = tasks.findIndex(t => t.id === targetId);
+  if (srcIdx === -1 || targetIdx === -1) return;
+  
+  const moved = tasks.splice(srcIdx, 1)[0];
+  tasks.splice(targetIdx, 0, moved);
+  saveTasks();
+  renderTasks();
+}
+function undoDelete() {
+  if (!deletedTask) return;
+  tasks.splice(deletedIndex, 0, deletedTask);
+  deletedTask = null;
+  saveTasks();
+  renderTasks();
+  hideToast();
+  updateStatsAndVisuals();
+}
+function clearDone() {
+  tasks = tasks.filter(t => !t.done);
+  saveTasks();
+  renderTasks();
+  updateStatsAndVisuals();
+}
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function renderTasks() {
+  const list = document.getElementById('task-list');
+  list.innerHTML = '';
+  
+  const total = tasks.length;
+  const active = tasks.filter(t => !t.done).length;
+  const done = tasks.filter(t => t.done).length;
+  
+  document.getElementById('cnt-all').textContent = total ? `(${total})` : '';
+  document.getElementById('cnt-active').textContent = active ? `(${active})` : '';
+  document.getElementById('cnt-done').textContent = done ? `(${done})` : '';
+  
+  document.getElementById('task-counter').textContent = total === 0 
+    ? 'No tasks yet' 
+    : `${active} of ${total} remaining`;
+    
+  document.getElementById('clear-btn').style.display = done > 0 ? '' : 'none';
+  
+  let visible = [...tasks];
+  if (activeFilter === 'active') visible = visible.filter(t => !t.done);
+  if (activeFilter === 'done') visible = visible.filter(t => t.done);
+  
+  if (sortByPriority) {
+    visible.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+  }
+  
+  if (visible.length === 0) {
+    const icons = {
+      all: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M9 12l2 2 4-4"/></svg>',
+      active: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6L9 17l-5-5"/></svg>',
+      done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>'
+    };
+    const msgs = {
+      all: 'Your sprint backlog is empty. Add a task to start!',
+      active: 'All caught up! Grab a refreshing Faluda dessert.',
+      done: 'No tasks completed in this view yet.'
+    };
+    list.innerHTML = `<div class="empty-state">${icons[activeFilter]}<div>${msgs[activeFilter]}</div></div>`;
+    return;
+  }
+  
+  visible.forEach(task => {
+    const li = document.createElement('li');
+    li.dataset.id = task.id;
+    li.dataset.p = task.priority;
+    if (task.done) li.classList.add('done');
+    
+    li.draggable = true;
+    li.onclick = () => toggleTask(task.id);
+    
+    // Drag and Drop
+    li.ondragstart = (e) => {
+      li.classList.add('dragging');
+      dragSrcId = task.id;
+      e.dataTransfer.effectAllowed = 'move';
+    };
+    li.ondragend = () => {
+      li.classList.remove('dragging');
+      document.querySelectorAll('li.drag-over').forEach(el => el.classList.remove('drag-over'));
+    };
+    li.ondragover = (e) => {
+      e.preventDefault();
+      document.querySelectorAll('li.drag-over').forEach(el => el.classList.remove('drag-over'));
+      li.classList.add('drag-over');
+    };
+    li.ondrop = (e) => {
+      e.preventDefault();
+      reorderTask(dragSrcId, task.id);
+    };
+    
+    li.innerHTML = `
+      <div class="check-box"></div>
+      <span class="task-text" ondblclick="event.stopPropagation(); editTask(${task.id}, this)">${esc(task.text)}</span>
+      <button class="delete-btn" onclick="deleteTask(${task.id}, event)" title="Delete Task">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7M4 7h16"/></svg>
+      </button>
+    `;
+    list.appendChild(li);
+  });
+}
+// ══════════════════════════════════════
+// STATISTICS & HEATMAP ENGINE
+// ══════════════════════════════════════
+function getTodayString() {
+  return new Date().toISOString().slice(0, 10);
+}
+function trackCompletion() {
+  const today = getTodayString();
+  stats[today] = (stats[today] || 0) + 1;
+  localStorage.setItem('faluda_stats', JSON.stringify(stats));
+  
+  // Update Streak logic
+  updateStreak();
+}
+function untrackCompletion() {
+  const today = getTodayString();
+  if (stats[today] && stats[today] > 0) {
+    stats[today] = stats[today] - 1;
+    if (stats[today] === 0) delete stats[today];
+  }
+  localStorage.setItem('faluda_stats', JSON.stringify(stats));
+  updateStreak();
+}
+function updateStreak() {
+  const today = getTodayString();
+  
+  // Find continuous days of completion going backwards
+  let currentStreak = 0;
+  let checkDate = new Date();
+  
+  while (true) {
+    const checkStr = checkDate.toISOString().slice(0, 10);
+    if (stats[checkStr] && stats[checkStr] > 0) {
+      currentStreak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+    } else {
+      // Allow today to be incomplete if yesterday was completed
+      if (currentStreak === 0 && checkStr === today) {
+        checkDate.setDate(checkDate.getDate() - 1);
+        const yesterdayStr = checkDate.toISOString().slice(0, 10);
+        if (stats[yesterdayStr] && stats[yesterdayStr] > 0) {
+          // Continue calculating starting from yesterday
+          continue;
+        }
+      }
+      break;
+    }
+  }
+  
+  settings.streak = currentStreak;
+  localStorage.setItem('faluda_settings', JSON.stringify(settings));
+  document.getElementById('streak-count').textContent = currentStreak;
+  document.getElementById('stats-streak').textContent = `${currentStreak} day${currentStreak === 1 ? '' : 's'}`;
+}
+function updateStatsAndVisuals() {
+  // Done today
+  const today = getTodayString();
+  const todayCount = stats[today] || 0;
+  document.getElementById('stats-completed').textContent = todayCount;
+  
+  // Total completed
+  const totalCompleted = Object.values(stats).reduce((acc, curr) => acc + curr, 0);
+  document.getElementById('stats-all-time').textContent = totalCompleted;
+  
+  // Total tracked days
+  const daysActive = Object.keys(stats).length;
+  document.getElementById('stats-days-active').textContent = daysActive;
+  
+  // Bottom summary bar
+  const bottomBar = document.getElementById('stats-bar');
+  if (bottomBar) {
+    if (totalCompleted === 0) {
+      bottomBar.textContent = '';
+    } else {
+      bottomBar.textContent = `${todayCount} done today · ${totalCompleted} total across ${daysActive} active day${daysActive === 1 ? '' : 's'}`;
+    }
+  }
+  
+  // Streak Count on Header
+  document.getElementById('streak-count').textContent = settings.streak;
+  // Completion Ring
+  const todayTasks = tasks;
+  const completedToday = todayTasks.filter(t => t.done).length; // Just counting active session ones or completed today
+  const activeCount = todayTasks.length;
+  
+  let ratio = 0;
+  if (activeCount > 0) {
+    ratio = Math.round((completedToday / activeCount) * 100);
+  }
+  
+  document.getElementById('ratio-percent').textContent = `${ratio}%`;
+  
+  // Ring offset styling
+  const circle = document.getElementById('ratio-progress-circle');
+  if (circle) {
+    const radius = circle.r.baseVal.value;
+    const circumference = radius * 2 * Math.PI;
+    const offset = circumference - (ratio / 100) * circumference;
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = offset;
+  }
+  
+  // Heatmap rendering
+  renderHeatmap();
+}
+function renderHeatmap() {
+  const container = document.getElementById('heatmap-grid');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  // Generate past 15 weeks (105 days) leading up to today
+  // Grid layout will fill column by column (top-to-bottom for days, left-to-right for weeks)
+  const totalDays = 105;
+  const cells = [];
+  
+  let tempDate = new Date();
+  // Align grid so it ends on today's day of week at bottom of final column
+  // Let's go back 105 days
+  tempDate.setDate(tempDate.getDate() - totalDays + 1);
+  
+  for (let i = 0; i < totalDays; i++) {
+    const dateStr = tempDate.toISOString().slice(0, 10);
+    const count = stats[dateStr] || 0;
+    
+    let level = 0;
+    if (count > 0 && count <= 2) level = 1;
+    else if (count > 2 && count <= 5) level = 2;
+    else if (count > 5) level = 3;
+    
+    const friendlyDate = tempDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const tooltipText = `${count} task${count === 1 ? '' : 's'} completed on ${friendlyDate}`;
+    
+    cells.push({
+      dateStr,
+      level,
+      tooltipText
+    });
+    
+    tempDate.setDate(tempDate.getDate() + 1);
+  }
+  
+  cells.forEach(cell => {
+    const div = document.createElement('div');
+    div.className = `heatmap-cell level-${cell.level}`;
+    div.setAttribute('data-tooltip', cell.tooltipText);
+    container.appendChild(div);
+  });
+}
+// ══════════════════════════════════════
+// NOTES ENGINE
+// ══════════════════════════════════════
+// Migrate color coding if absent
+notes = notes.map(n => {
+  if (!n.color) n.color = 'default';
+  if (n.archived === undefined) n.archived = false;
+  return n;
+});
+function saveNotes() {
+  localStorage.setItem('faluda_notes', JSON.stringify(notes));
+}
+function setNoteFilter(f) {
+  noteFilter = f;
+  document.querySelectorAll('.notes-filter-tabs .filter-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.nf === f);
+  });
+  renderNotes();
+}
+function newNote() {
+  const note = {
+    id: Date.now(),
+    title: '',
+    body: '',
+    color: 'default',
+    archived: false,
+    updated: Date.now()
+  };
+  notes.unshift(note);
+  saveNotes();
+  openNote(note.id);
+}
+function openNote(id) {
+  currentNoteId = id;
+  const note = notes.find(n => n.id === id);
+  if (!note) return;
+  
+  document.getElementById('note-title-input').value = note.title;
+  document.getElementById('note-body-input').value = note.body;
+  
+  // Set archive label
+  document.getElementById('archive-toggle-btn').textContent = note.archived ? 'Unarchive' : 'Archive';
+  
+  // Set active color dot
+  document.querySelectorAll('.color-dot').forEach(dot => {
+    dot.classList.toggle('active', dot.dataset.color === note.color);
+  });
+  
+  // Update editor card background class
+  const editorCard = document.getElementById('editor-card');
+  editorCard.className = `editor-card color-${note.color}`;
+  
+  document.getElementById('notes-list-view').style.display = 'none';
+  document.getElementById('note-editor-view').style.display = '';
+  document.getElementById('note-title-input').focus();
+}
+function closeEditor() {
+  const note = notes.find(n => n.id === currentNoteId);
+  if (note) {
+    note.title = document.getElementById('note-title-input').value.trim();
+    note.body = document.getElementById('note-body-input').value.trim();
+    note.updated = Date.now();
+    
+    // Automatically delete blank notes
+    if (!note.title && !note.body) {
+      notes = notes.filter(n => n.id !== currentNoteId);
+    }
+    saveNotes();
+  }
+  currentNoteId = null;
+  document.getElementById('note-editor-view').style.display = 'none';
+  document.getElementById('notes-list-view').style.display = '';
+  renderNotes();
+}
+function setNoteColor(color) {
+  const note = notes.find(n => n.id === currentNoteId);
+  if (note) {
+    note.color = color;
+    saveNotes();
+  }
+  
+  document.querySelectorAll('.color-dot').forEach(dot => {
+    dot.classList.toggle('active', dot.dataset.color === color);
+  });
+  
+  const editorCard = document.getElementById('editor-card');
+  editorCard.className = `editor-card color-${color}`;
+}
+function toggleArchiveCurrent() {
+  const note = notes.find(n => n.id === currentNoteId);
+  if (!note) return;
+  
+  note.title = document.getElementById('note-title-input').value.trim();
+  note.body = document.getElementById('note-body-input').value.trim();
+  note.updated = Date.now();
+  note.archived = !note.archived;
+  saveNotes();
+  
+  document.getElementById('archive-toggle-btn').textContent = note.archived ? 'Unarchive' : 'Archive';
+  closeEditor();
+}
+function deleteCurrentNote() {
+  notes = notes.filter(n => n.id !== currentNoteId);
+  saveNotes();
+  currentNoteId = null;
+  document.getElementById('note-editor-view').style.display = 'none';
+  document.getElementById('notes-list-view').style.display = '';
+  renderNotes();
+}
+function deleteNoteCard(id, e) {
+  e.stopPropagation();
+  notes = notes.filter(n => n.id !== id);
+  saveNotes();
+  renderNotes();
+}
+function clearArchived() {
+  notes = notes.filter(n => !n.archived);
+  saveNotes();
+  renderNotes();
+}
+function renderNotes() {
+  const grid = document.getElementById('notes-list');
+  grid.innerHTML = '';
+  
+  const total = notes.length;
+  const active = notes.filter(n => !n.archived).length;
+  const archived = notes.filter(n => n.archived).length;
+  
+  document.getElementById('ncnt-all').textContent = total ? `(${total})` : '';
+  document.getElementById('ncnt-active').textContent = active ? `(${active})` : '';
+  document.getElementById('ncnt-archived').textContent = archived ? `(${archived})` : '';
+  
+  document.getElementById('notes-counter').textContent = total === 0
+    ? 'No notes yet'
+    : `${active} active · ${archived} archived`;
+    
+  document.getElementById('clear-archived-btn').style.display = archived > 0 ? '' : 'none';
+  
+  let visible = [...notes];
+  if (noteFilter === 'active') visible = visible.filter(n => !n.archived);
+  if (noteFilter === 'archived') visible = visible.filter(n => n.archived);
+  
+  if (visible.length === 0) {
+    const msgs = {
+      all: 'Capture your thoughts, ideas, or to-do lists by creating your first note.',
+      active: 'No active notes here.',
+      archived: 'Archive folders are currently clean.'
+    };
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div>${msgs[noteFilter]}</div>
+      </div>
+    `;
+    return;
+  }
+  
+  visible.forEach(note => {
+    const card = document.createElement('div');
+    card.className = `note-card color-${note.color} ${note.archived ? 'archived' : ''}`;
+    
+    const formattedDate = new Date(note.updated).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+    
+    card.onclick = () => openNote(note.id);
+    
+    card.innerHTML = `
+      <div class="note-card-title">${esc(note.title || 'Untitled')}</div>
+      <div class="note-card-body">${esc(note.body || '')}</div>
+      <div class="note-card-date">${formattedDate}</div>
+      <button class="note-card-delete" onclick="deleteNoteCard(${note.id}, event)" title="Delete Note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7M4 7h16"/></svg>
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+}
+// ══════════════════════════════════════
+// APP CONTROLLER / NAV
+// ══════════════════════════════════════
+let activeApp = 'tasks';
+function switchApp(app) {
+  activeApp = app;
+  
+  // Close note editor if moving away from notes
+  if (app !== 'notes' && currentNoteId !== null) {
+    closeEditor();
+  }
+  
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.id === `tab-${app}`);
+  });
+  
+  document.getElementById('tasks-view').style.display = app === 'tasks' ? '' : 'none';
+  document.getElementById('notes-view').style.display = app === 'notes' ? '' : 'none';
+  document.getElementById('stats-view').style.display = app === 'stats' ? '' : 'none';
+  
+  if (app === 'notes') renderNotes();
+  if (app === 'stats') updateStatsAndVisuals();
+}
+// Theme management
+function setTheme(theme) {
+  settings.theme = theme;
+  localStorage.setItem('faluda_settings', JSON.stringify(settings));
+  document.documentElement.setAttribute('data-theme', theme);
+  
+  const sunIcon = document.querySelector('.sun-icon');
+  const moonIcon = document.querySelector('.moon-icon');
+  
+  if (theme === 'dark') {
+    sunIcon.style.display = 'none';
+    moonIcon.style.display = '';
+  } else {
+    sunIcon.style.display = '';
+    moonIcon.style.display = 'none';
+  }
+}
+function toggleTheme() {
+  setTheme(settings.theme === 'dark' ? 'light' : 'dark');
+}
+// Sound Management
+function toggleSound() {
+  settings.soundEnabled = !settings.soundEnabled;
+  localStorage.setItem('faluda_settings', JSON.stringify(settings));
+  
+  const soundOn = document.querySelector('.sound-on');
+  const soundOff = document.querySelector('.sound-off');
+  
+  if (settings.soundEnabled) {
+    soundOn.style.display = '';
+    soundOff.style.display = 'none';
+  } else {
+    soundOn.style.display = 'none';
+    soundOff.style.display = '';
+  }
+}
+function initSettings() {
+  setTheme(settings.theme);
+  
+  const soundOn = document.querySelector('.sound-on');
+  const soundOff = document.querySelector('.sound-off');
+  if (settings.soundEnabled) {
+    soundOn.style.display = '';
+    soundOff.style.display = 'none';
+  } else {
+    soundOn.style.display = 'none';
+    soundOff.style.display = '';
+  }
+}
+// ══════════════════════════════════════
+// CLOCK & DATE UTILS
+// ══════════════════════════════════════
+function setDate() {
+  document.getElementById('date-display').textContent =
+    new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+function updateClock() {
+  const now = new Date();
+  const hrs = now.getHours();
+  const h = String(hrs % 12 || 12).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const ampm = hrs >= 12 ? 'PM' : 'AM';
+  
+  document.getElementById('clock-time').textContent = `${h}:${m}:${s} ${ampm}`;
+  document.getElementById('seconds-bar').style.width = `${((now.getSeconds() / 60) * 100)}%`;
+}
+// ══════════════════════════════════════
+// TOAST NOTIFICATIONS
+// ══════════════════════════════════════
+function showToast(message) {
+  clearTimeout(toastTimer);
+  document.getElementById('toast-message').textContent = message;
+  document.getElementById('toast').classList.add('show');
+  toastTimer = setTimeout(hideToast, 5000);
+}
+function hideToast() {
+  document.getElementById('toast').classList.remove('show');
+}
+// ══════════════════════════════════════
+// KEYBOARD SHORTCUTS & EVENT LISTENER
+// ══════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  // Task shortcuts
+  if (e.key === 'Enter' && document.activeElement.id === 'task-input') {
+    addTask();
+  }
+  if (e.altKey && e.key === '1') { e.preventDefault(); selectPriority('low'); }
+  if (e.altKey && e.key === '2') { e.preventDefault(); selectPriority('mid'); }
+  if (e.altKey && e.key === '3') { e.preventDefault(); selectPriority('high'); }
+  
+  // Note shortcuts
+  if (e.key === 'Escape' && currentNoteId !== null) {
+    closeEditor();
+  }
+});
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', () => {
+  initSettings();
+  setDate();
+  renderTasks();
+  updateClock();
+  setInterval(updateClock, 1000);
+  
+  // Sync streaks & heatmap stats
+  updateStreak();
+  updateStatsAndVisuals();
+});
