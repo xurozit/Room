@@ -1,1038 +1,1054 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head><script>function __threeuiStorageImage(...args){const image=new Image(...args);const property=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");Object.defineProperty(image,"src",{configurable:true,get(){return property.get.call(this)},set(value){try{const url=new URL(value,document.baseURI);if(this.crossOrigin===null&&(url.href.startsWith("https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/")||url.origin===new URL(document.baseURI).origin))this.crossOrigin="anonymous"}catch{}property.set.call(this,value)}});return image;}
-</script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meng To</title>
-<meta name="description" content="designer, creator, AI educator — Singapore">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FEF7FF">
+<title>My Day</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231c1a17'/><text y='.85em' font-size='65' x='18' fill='white' font-family='sans-serif' font-weight='bold'>✓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:block;
-  src:url(https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/embedded/60c06664b5a95c7de6cc3e00d1f9034d78bd1e40b564016b241674449a067d4d.woff2) format('woff2')}
-@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:block;
-  src:url(https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/embedded/6ee678c33f388dd7ba59700ebea635deb98821baafd817b09891f7927177f702.woff2) format('woff2')}
-@font-face{font-family:'Newsreader';font-style:normal;font-weight:200 600;font-display:swap;
-  src:url(https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/dcec2e68141a33903e3b6cc1/newsreader.woff2) format('woff2')}
+  /* Material Design 3 (stock Android) */
+  :root {
+    --primary:                   #6750A4;
+    --on-primary:                #FFFFFF;
+    --primary-container:         #EADDFF;
+    --on-primary-container:      #21005D;
+    --secondary-container:       #E8DEF8;
+    --on-secondary-container:    #1D192B;
+    --surface:                   #FEF7FF;
+    --surface-low:               #F7F2FA;
+    --surface-mid:               #F3EDF7;
+    --surface-high:              #ECE6F0;
+    --on-surface:                #1D1B20;
+    --on-surface-variant:        #49454F;
+    --outline:                   #79747E;
+    --outline-variant:           #CAC4D0;
+    --error:                     #B3261E;
+    --low:        #386A20;  --low-c:  #C4EFAF;  --on-low-c:  #0A2100;
+    --mid:        #8B5000;  --mid-c:  #FFDCBE;  --on-mid-c:  #2C1600;
+    --high:       #B3261E;  --high-c: #F9DEDC;  --on-high-c: #410E0B;
+    --accent:     var(--primary);
+    --radius:     16px;
+    --radius-sm:  12px;
+    --ease:       cubic-bezier(0.2, 0, 0, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: Roboto, 'Google Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--surface);
+    color: var(--on-surface);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea { font-family: inherit; }
+  .container {
+    position: relative;
+    z-index: 1;
+    background: var(--surface);
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    padding: 1.5rem 1rem 1.5rem;
+  }
 
-:root{
-  --paper:#ece7dc;
-  --ink:#2b2721;
-  --ink-soft:rgba(43,39,33,.58);
-  --ink-faint:rgba(43,39,33,.36);
-  --hairline:rgba(43,39,33,.14);
-  --earth:#9a6a3e;
-  --display:'Instrument Serif',"New York",Georgia,'Times New Roman',serif;
-  --font:'Newsreader',"New York",Georgia,'Times New Roman',serif;
-  --track-caps:.24em;
-  --track-nav:.06em;
-}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{
-  font-family:var(--font);font-weight:400;background:var(--paper);color:var(--ink);
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
-}
-a{color:inherit;text-decoration:none}
-button{font:inherit}
-::selection{background:rgba(43,39,33,.85);color:var(--paper)}
+  /* ── Top app bar ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 2.5rem;
+    color: var(--on-surface);
+  }
+  .header .date {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: var(--on-surface-variant);
+    margin-top: 2px;
+  }
+  .clock-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+    min-width: 96px;
+    padding-top: 8px;
+  }
+  .clock-time {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: var(--on-surface-variant);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .seconds-bar-track {
+    width: 100%;
+    height: 4px;
+    background: var(--secondary-container);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .seconds-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: width 0.95s linear;
+  }
 
-/* the painted ground the whole page sits on */
-.wash{
-  position:fixed;inset:0;z-index:-2;pointer-events:none;
-  background:url(https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/339abd2c649a11f725af9114/bg-wash.jpg) center top / cover no-repeat;
-  opacity:.85;
-}
-.wash:after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(236,231,220,.25) 0%,rgba(236,231,220,.72) 58%,var(--paper) 88%);
-}
+  /* ── Ripple (touch feedback) ── */
+  .app-tab, .priority-btn, .filter-btn, .ghost-btn, .add-btn, .note-add-row,
+  .toast-undo, .note-filter-btn, li, .note-row { position: relative; overflow: hidden; }
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.14;
+    transform: scale(0);
+    animation: ripple 0.55s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes ripple { to { transform: scale(1); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .ripple { display: none; } }
 
-/* ---------------- top bar ---------------- */
-.top{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  display:flex;flex-direction:column;align-items:center;gap:11px;
-  padding-inline:clamp(16px,4vw,48px);padding-block:18px 64px;pointer-events:none;text-align:center;
-}
-.top>*{pointer-events:auto}
-.top:before{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(180deg,rgba(240,236,226,.94),rgba(240,236,226,.7) 48%,rgba(240,236,226,0));
-  -webkit-backdrop-filter:blur(14px) saturate(.95);backdrop-filter:blur(14px) saturate(.95);
-  -webkit-mask-image:linear-gradient(180deg,#000 46%,transparent);
-  mask-image:linear-gradient(180deg,#000 46%,transparent);
-}
-.top .name{
-  font-family:var(--display);font-size:clamp(24px,2.4vw,30px);letter-spacing:.01em;
-  white-space:nowrap;line-height:1;
-}
-.top nav{
-  display:flex;gap:clamp(14px,2vw,26px);font-size:15px;align-items:center;
-  letter-spacing:var(--track-nav);font-weight:300;
-}
-.top nav a{color:var(--ink-soft);transition:color .2s}
-.top nav a:hover,.top nav a[aria-current]{color:var(--ink)}
-.top nav .top-socials{
-  display:flex;align-items:center;gap:13px;margin-left:2px;padding-left:clamp(12px,1.6vw,20px);
-  border-left:1px solid var(--hairline);
-}
-.icon-btn{display:inline-flex;align-items:center;justify-content:center;padding:4px;color:var(--ink-soft);transition:color .2s}
-.icon-btn:hover{color:var(--ink)}
-.top .icon-btn svg{width:16px;height:16px;display:block}
-@media (max-width:640px){
-  .top{padding-inline:12px;padding-block:13px 50px;gap:8px}
-  .top .name{font-size:20px}
-  .top nav{gap:11px;font-size:13px}
-  .top nav .top-socials{gap:9px;padding-left:10px}
-  .top .icon-btn{padding:2px}
-  .top .icon-btn svg{width:14px;height:14px}
-}
+  /* ── Primary tabs ── */
+  .app-tabs {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--outline-variant);
+  }
+  .app-tab {
+    flex: 1;
+    height: 48px;
+    border: none;
+    background: transparent;
+    color: var(--on-surface-variant);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+  .app-tab::after {
+    content: '';
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--primary);
+    transform: scaleX(0);
+    transition: transform 0.25s var(--ease);
+  }
+  .app-tab:hover { background: rgba(29, 27, 32, 0.06); }
+  .app-tab.active { color: var(--primary); }
+  .app-tab.active::after { transform: scaleX(1); }
 
-/* ---------------- hero ---------------- */
-.hero{
-  position:relative;display:grid;justify-items:center;align-content:center;
-  min-height:100svh;overflow-anchor:none;
-  padding:clamp(112px,13svh,152px) 0 clamp(72px,10svh,120px);
-}
-.botany{
-  position:absolute;bottom:0;width:clamp(120px,15vw,250px);opacity:.5;
-  pointer-events:none;user-select:none;z-index:0;
-}
-.botany.l{left:clamp(-40px,-1vw,0px);bottom:2%}
-.botany.r{right:clamp(-30px,0vw,10px);bottom:-2%;width:clamp(100px,12vw,200px)}
-@media (max-width:900px){.botany{display:none}}
+  /* ── Task input (filled, pill) ── */
+  .input-wrap {
+    position: relative;
+    margin-bottom: 0.75rem;
+  }
+  .input-wrap input[type="text"] {
+    width: 100%;
+    height: 56px;
+    padding: 0 64px 0 20px;
+    border-radius: 28px;
+    border: none;
+    background: var(--surface-high);
+    font-size: 1rem;
+    color: var(--on-surface);
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    transition: outline-color 0.2s var(--ease);
+  }
+  .input-wrap input[type="text"]:focus { outline-color: var(--primary); }
+  .input-wrap input[type="text"]::placeholder { color: var(--on-surface-variant); }
+  .add-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+    transition: box-shadow 0.2s var(--ease);
+  }
+  .add-btn:hover { box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15); }
 
-.hero-kicker{
-  font-size:12px;font-weight:400;letter-spacing:var(--track-caps);text-align:center;
-  color:var(--ink-soft);margin:0 0 clamp(22px,3.4vh,40px);text-transform:uppercase;
-}
-.hero-down{
-  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);border:0;background:transparent;
-  padding:10px 14px;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;
-  animation:cue-breathe 2.6s ease-in-out infinite;z-index:3;
-}
-.hero-down:hover{animation:none;opacity:1}
-@keyframes cue-breathe{0%,100%{opacity:.15}50%{opacity:.7}}
-@media (prefers-reduced-motion:reduce){.hero-down{animation:none;opacity:.5}}
+  /* ── Chips: priority + filters ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .priority-btn, .filter-btn {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid var(--outline);
+    background: transparent;
+    color: var(--on-surface-variant);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .priority-btn:hover, .filter-btn:hover { background: rgba(29, 27, 32, 0.08); }
+  .priority-btn.active-low, .priority-btn.active-mid, .priority-btn.active-high,
+  .filter-btn.active { border-color: transparent; }
+  .priority-btn.active-low::before, .priority-btn.active-mid::before,
+  .priority-btn.active-high::before, .filter-btn.active::before {
+    content: '\2713';
+    margin-right: 6px;
+    font-size: 0.8rem;
+  }
+  .priority-btn.active-low  { background: var(--low-c);  color: var(--on-low-c);  }
+  .priority-btn.active-mid  { background: var(--mid-c);  color: var(--on-mid-c);  }
+  .priority-btn.active-high { background: var(--high-c); color: var(--on-high-c); }
+  .filter-btn.active { background: var(--secondary-container); color: var(--on-secondary-container); }
+  .divider { display: none; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem; }
 
-/* ---------------- sketchbook ---------------- */
-.hero,.hero *{-webkit-user-select:none;-moz-user-select:none;user-select:none}
-.hero img{-webkit-user-drag:none;user-drag:none}
-.sb-wrap{display:grid;justify-items:center;gap:20px;width:100%;position:relative;z-index:2}
-.sb-stage{
-  display:flex;align-items:center;justify-content:center;width:100%;
-  position:relative;
-  touch-action:pan-y;
-}
-.sb-arrow{
-  flex:none;display:inline-flex;align-items:center;justify-content:center;padding:6px 2px;
-  border:0;background:transparent;color:var(--ink-faint);cursor:pointer;transition:color .2s;
-  -webkit-tap-highlight-color:transparent;z-index:8;
-}
-.sb-arrow:hover{color:var(--ink)}
+  /* ── Task list ── */
+  ul {
+    list-style: none;
+    max-height: calc(100vh - 470px);
+    min-height: 120px;
+    overflow-y: auto;
+    margin-top: 0.25rem;
+  }
+  ul::-webkit-scrollbar { width: 0; }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 56px;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    animation: fadeUp 0.2s ease both;
+    transition: opacity 0.22s ease, transform 0.22s ease, background 0.15s;
+  }
+  li:hover { background: rgba(29, 27, 32, 0.06); }
+  li.drag-over { box-shadow: inset 0 2px 0 var(--primary); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  li.completing { opacity: 0 !important; transform: scale(0.97) !important; }
+  li.done { opacity: 0.6; }
+  li.done .task-text { text-decoration: line-through; color: var(--on-surface-variant); }
+  li[data-p="low"].done .check-circle  { background: var(--low);  border-color: var(--low);  }
+  li[data-p="mid"].done .check-circle  { background: var(--mid);  border-color: var(--mid);  }
+  li[data-p="high"].done .check-circle { background: var(--high); border-color: var(--high); }
+  li.done .check-circle::after { opacity: 1; transform: translate(-50%, -62%) rotate(45deg) scale(1); }
+  .check-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 2px solid var(--on-surface-variant);
+    flex-shrink: 0;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .check-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 10px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: translate(-50%, -62%) rotate(45deg) scale(0);
+    opacity: 0;
+    transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+  }
+  .p-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .p-dot.high { background: var(--high); }
+  .p-dot.mid  { background: var(--mid);  }
+  .p-dot.low  { background: var(--low);  }
+  .task-text {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.15px;
+    word-break: break-word;
+    line-height: 1.5;
+    color: var(--on-surface);
+    transition: color 0.2s;
+  }
+  .delete-btn, .note-delete-btn {
+    background: transparent;
+    color: var(--on-surface-variant);
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s, color 0.15s;
+  }
+  li:hover .delete-btn, .note-row:hover .note-delete-btn { opacity: 1; }
+  .delete-btn:hover, .note-delete-btn:hover { background: rgba(179, 38, 30, 0.1); color: var(--error); }
+  @media (hover: none) { .delete-btn, .note-delete-btn { opacity: 1; } }
+  .empty-state {
+    padding: 2.5rem 0 1.5rem;
+    color: var(--on-surface-variant);
+    font-size: 0.875rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
 
-/* The box is the book's own untransformed frame: the loupe lives here, on
-   the desk, while only .sb-tilt leans and scales underneath it. */
-.sb-3d{
-  position:relative;flex:1 1;min-width:0;max-width:900px;
-  perspective:1750px;perspective-origin:50% 46%;
-}
-.sb-tilt{
-  position:relative;
-  transform-style:preserve-3d;
-  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(var(--zoom,1));
-  will-change:transform;
-}
-.sb-book{position:relative;width:100%;aspect-ratio:1760/1240;transform-style:preserve-3d;z-index:1}
+  /* ── Footer ── */
+  .footer-row, .notes-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--outline-variant);
+    min-height: 48px;
+  }
+  .task-counter, .notes-counter {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--on-surface-variant);
+    padding-left: 0.5rem;
+  }
+  .footer-actions { display: flex; gap: 4px; }
 
-/* The book sits on a surface, so its shadow is a soft pool underneath —
-   no box, no filter on the artwork, nothing with an edge of its own.
-   Both blobs fade to zero well inside their own bounds, and both ease
-   off while a leaf is in the air. */
-.sb-cast{position:absolute;pointer-events:none;z-index:0}
-.sb-cast.ambient{
-  left:5%;right:5%;top:27%;bottom:2%;
-  background:radial-gradient(50% 50% at 50% 58%,
-    rgba(58,44,26,.34) 0%,rgba(58,44,26,.19) 40%,rgba(58,44,26,0) 74%);
-  filter:blur(26px);
-  opacity:calc(1 - var(--shade,0) * .42);
-}
-.sb-cast.contact{
-  left:9%;right:9%;top:62%;bottom:10%;
-  background:radial-gradient(50% 44% at 50% 42%,
-    rgba(44,32,14,.40) 0%,rgba(44,32,14,.17) 48%,rgba(44,32,14,0) 78%);
-  filter:blur(11px);
-  opacity:calc(1 - var(--shade,0) * .5);
-}
-.sb-cast.hair{
-  left:12%;right:12%;top:70%;bottom:17%;
-  background:radial-gradient(50% 52% at 50% 40%,
-    rgba(40,28,10,.34) 0%,rgba(40,28,10,0) 76%);
-  filter:blur(4px);
-  opacity:calc(1 - var(--shade,0) * .62);
-}
-.sb-full{position:absolute;inset:0}
-.sb-full img{width:100%;height:auto;display:block}
-.sb-half{position:absolute;top:0;bottom:0;width:50%;overflow-x:clip;overflow-y:visible}
-.sb-half.left{left:0}
-.sb-half.right{left:50%}
-.sb-half-img{width:200%;max-width:none;height:auto;display:block}
-.sb-half-img.right{margin-left:-100%}
-/* the shadow the lifting leaf throws onto the page beneath it */
-.gutter-shade{
-  position:absolute;top:var(--pg,21.8%);bottom:var(--pg,21.8%);width:46%;
-  pointer-events:none;opacity:calc(var(--shade,0) * .62);
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
-}
-.gutter-shade.left{right:0;background:linear-gradient(270deg,rgba(52,38,20,.30),rgba(52,38,20,0) 82%)}
-.gutter-shade.right{left:0;background:linear-gradient(90deg,rgba(52,38,20,.24),rgba(52,38,20,0) 82%)}
+  /* ── Text buttons ── */
+  .ghost-btn {
+    height: 40px;
+    padding: 0 14px;
+    background: none;
+    border: none;
+    color: var(--primary);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .ghost-btn:hover { background: rgba(103, 80, 164, 0.08); }
+  .ghost-btn.active { background: var(--secondary-container); color: var(--on-secondary-container); }
+  .ghost-btn.danger { color: var(--error); }
+  .ghost-btn.danger:hover { background: rgba(179, 38, 30, 0.08); }
+  #clear-btn { display: none; }
+  #clear-btn.visible { display: block; }
 
-/* ---- the turning leaf: nested strips forming a curved surface ---- */
-.curl{
-  position:absolute;top:0;height:100%;
-  width:calc(var(--bw,0px) * var(--span));
-  transform-style:preserve-3d;z-index:6;
-}
-.curl.next{left:50%;transform-origin:left center;transform:rotateY(calc(-1 * var(--tt,0deg)))}
-.curl.prev{right:50%;transform-origin:right center;transform:rotateY(var(--tt,0deg))}
-.strip{
-  position:absolute;top:0;height:100%;
-  width:calc(var(--bw,0px) * var(--span) / var(--n));
-  transform-style:preserve-3d;
-}
-.curl.next .strip{transform-origin:left center}
-.curl.prev .strip{transform-origin:right center}
-.curl.next>.strip{left:0}
-.curl.prev>.strip{right:0;left:auto}
-.curl.next .strip .strip{left:100%;transform:rotateY(var(--td,0deg))}
-.curl.prev .strip .strip{right:100%;transform:rotateY(calc(-1 * var(--td,0deg)))}
-.face{
-  position:absolute;top:0;bottom:0;left:0;right:-1.1px;
-  backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  background-repeat:no-repeat;background-size:var(--bw,0px) auto;
-}
-.face.back{transform:rotateY(180deg)}
-.face .sh,.face .gl{
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0,#000 5.2%,#000 94.8%,transparent 100%);
-}
-.strip.edge .face .sh,.strip.edge .face .gl{
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 91%,transparent 100%),var(--hf);
-  mask-image:linear-gradient(180deg,transparent 0,#000 9%,#000 91%,transparent 100%),var(--hf);
-  -webkit-mask-composite:source-in;mask-composite:intersect;
-}
-.curl.next .strip.edge .face.front,.curl.prev .strip.edge .face.back{
-  --hf:linear-gradient(90deg,#000 0 22%,transparent 96%);
-}
-.curl.next .strip.edge .face.back,.curl.prev .strip.edge .face.front{
-  --hf:linear-gradient(270deg,#000 0 22%,transparent 96%);
-}
-.face .sh{position:absolute;left:0;right:0;top:var(--pg,21.8%);bottom:var(--pg,21.8%);pointer-events:none}
-.curl.next .face.front .sh,.curl.prev .face.back .sh{
-  background:linear-gradient(90deg,rgba(58,43,20,var(--a1,0)),rgba(58,43,20,var(--a2,0)));
-}
-.curl.next .face.back .sh,.curl.prev .face.front .sh{
-  background:linear-gradient(90deg,rgba(58,43,20,var(--a2,0)),rgba(58,43,20,var(--a1,0)));
-}
-.face .gl{
-  position:absolute;left:0;right:0;top:var(--pg,21.8%);bottom:var(--pg,21.8%);
-  pointer-events:none;background:#fffaf0;
-  opacity:calc(var(--shade,0) * var(--lit,1) * var(--lit,1) * .20);
-}
+  /* ── Snackbar ── */
+  .toast {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #322F35;
+    color: #F5EFF7;
+    padding: 4px 8px 4px 16px;
+    min-height: 48px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    letter-spacing: 0.25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.25), 0 1px 18px rgba(0,0,0,0.12);
+    transition: transform 0.28s var(--ease);
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast-undo {
+    background: none;
+    border: none;
+    color: #D0BCFF;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .toast-undo:hover { background: rgba(208, 188, 255, 0.12); }
 
-/* ---- the loupe: a real magnifier lying on the page.  Pick it up and
-       drag it across the book; it stays where you put it. ---- */
-.loupe{
-  position:absolute;left:0;top:0;
-  width:var(--lr,270px);height:var(--lr,270px);
-  pointer-events:none;z-index:80;opacity:0;
-  transition:opacity .25s ease;
-  will-change:transform;
-}
-.loupe.on{opacity:1}
-.loupe.held .ring{cursor:grabbing}
-.loupe .ring{
-  position:absolute;inset:0;border-radius:50%;
-  pointer-events:auto;cursor:grab;
-  padding:calc(var(--lr,270px) * .058);
-  box-shadow:
-    0 1px 2px rgba(58,44,26,.30),
-    0 10px 18px rgba(58,44,26,.24),
-    0 26px 40px rgba(58,44,26,.20),
-    0 48px 66px rgba(58,44,26,.13);
-}
-/* the bezel is an annulus, so the glass really is see-through */
-.loupe .ring:before{
-  content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
-  background:linear-gradient(146deg,
-    #fdf7e9 0%,#e6d7b4 14%,#b69d70 32%,#7d6740 50%,
-    #cdbb92 66%,#f4ead3 80%,#9b8459 100%);
-  box-shadow:
-    inset 0 1px 1px rgba(255,255,255,.8),
-    inset 0 -2px 3px rgba(70,52,26,.5);
-  -webkit-mask-image:radial-gradient(circle closest-side at 50% 50%,transparent 0 88.2%,#000 89.8% 100%);
-  mask-image:radial-gradient(circle closest-side at 50% 50%,transparent 0 88.2%,#000 89.8% 100%);
-}
-/* the handle, drawn before the bezel so the ring covers its inner end */
-.loupe .grip{
-  position:absolute;left:50%;top:50%;
-  width:calc(var(--lr,270px) * .74);height:calc(var(--lr,270px) * .125);
-  transform-origin:0 50%;
-  transform:rotate(40deg) translate(calc(var(--lr,270px) * .33),-50%);
-  border-radius:calc(var(--lr,270px) * .06);
-  pointer-events:auto;cursor:grab;
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.46) 0 13%,rgba(255,255,255,0) 44%,
-                    rgba(0,0,0,.26) 100%),
-    linear-gradient(90deg,#d9bd82 0 14%,#a9884e 14% 20%,#6d4c2b 20% 62%,
-                    #5a3d22 62% 92%,#7a563180 92% 100%);
-  box-shadow:0 8px 15px rgba(58,44,26,.26),0 18px 26px rgba(58,44,26,.14);
-}
-.lens{
-  position:relative;display:block;width:100%;height:100%;border-radius:50%;
-  background-repeat:no-repeat;overflow:hidden;
-  box-shadow:
-    inset 0 0 0 1px rgba(52,40,22,.55),
-    inset 0 4px 12px rgba(40,30,14,.28),
-    inset 0 -7px 16px rgba(255,250,240,.14);
-}
-.lens .mag{display:none}
-/* A second copy of the book, sitting beside the glass outside the tilt, and
-   scaled about whichever page point the glass is currently over. */
-.zoomwrap{
-  position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2;
-  opacity:0;
-}
-.zoominner{position:absolute;inset:0;transform-origin:0 0}
-.lens:before,.lens:after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none}
-.lens:before{z-index:1}
-.lens:after{z-index:2}
-/* the glass bends and darkens toward its rim, with a faint colour fringe */
-.lens:before{
-  background:radial-gradient(circle at 50% 50%,
-    rgba(0,0,0,0) 54%,rgba(58,44,26,.10) 76%,rgba(46,34,16,.34) 100%);
-  box-shadow:
-    inset 0 0 0 2px rgba(130,162,196,.26),
-    inset 0 0 0 4px rgba(206,158,112,.15);
-}
-/* the dome: one broad specular and a tight crescent opposite it */
-.lens:after{
-  background:
-    radial-gradient(36% 26% at 29% 19%,rgba(255,255,255,.30),rgba(255,255,255,0) 76%),
-    radial-gradient(24% 16% at 74% 86%,rgba(255,255,255,.12),rgba(255,255,255,0) 80%),
-    linear-gradient(150deg,rgba(255,255,255,.06) 0 18%,rgba(255,255,255,0) 42%);
-}
+  /* ══ NOTES ══ */
+  .note-add-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    padding: 0 20px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+    transition: box-shadow 0.2s var(--ease);
+  }
+  .note-add-row:hover { box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15); }
 
-/* ---- controls ---- */
-.sb-tools{
-  display:flex;align-items:center;gap:6px;
-  border:1px solid var(--hairline);border-radius:999px;
-  padding:5px 7px;background:rgba(250,246,238,.62);
-  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-}
-.tool{
-  width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;
-  border:0;border-radius:50%;background:transparent;color:var(--ink-soft);
-  cursor:pointer;transition:background-color .18s ease,color .18s ease;
-}
-.tool:hover{background:rgba(255,252,244,.9);color:var(--ink)}
-.tool[aria-pressed="true"]{background:rgba(154,106,62,.16);color:var(--earth)}
-.tool:disabled{opacity:.32;cursor:default;background:transparent}
-.tool svg{width:15px;height:15px;display:block}
-.tool-sep{width:1px;height:17px;background:var(--hairline);margin:0 2px}
-.zoom-read{
-  font-size:11px;letter-spacing:.1em;color:var(--ink-faint);
-  min-width:40px;text-align:center;font-variant-numeric:tabular-nums;
-}
-@media (pointer:coarse){.loupe{display:none}}
+  .notes-filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem; }
+  .note-filter-btn {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid var(--outline);
+    background: transparent;
+    color: var(--on-surface-variant);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .note-filter-btn:hover { background: rgba(29, 27, 32, 0.08); }
+  .note-filter-btn.active {
+    border-color: transparent;
+    background: var(--secondary-container);
+    color: var(--on-secondary-container);
+  }
+  .note-filter-btn.active::before { content: '\2713'; margin-right: 6px; font-size: 0.8rem; }
 
-.sb-zone{position:absolute;top:0;bottom:0;border:0;background:transparent;cursor:grab;z-index:60;-webkit-tap-highlight-color:transparent}
-.sb-zone:active{cursor:grabbing}
-.sb-prev{left:0;width:50%}
-.sb-next{right:0;width:50%}
+  .notes-scroll {
+    max-height: calc(100vh - 470px);
+    min-height: 120px;
+    overflow-y: auto;
+    margin-top: 0.25rem;
+  }
+  .notes-scroll::-webkit-scrollbar { width: 0; }
+  .note-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 8px 8px 8px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-low);
+    margin-bottom: 8px;
+    cursor: pointer;
+    animation: fadeUp 0.2s ease both;
+    transition: opacity 0.18s, background 0.15s;
+  }
+  .note-row:hover { background: var(--surface-mid); }
+  .note-row.archived { opacity: 0.5; }
+  .note-row-title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--on-surface);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .note-row-preview {
+    font-size: 0.8rem;
+    color: var(--on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+    flex-shrink: 0;
+  }
 
-.sb-captions{display:grid;justify-items:center}
-.sb-captions>*{grid-area:1/1;margin:0}
-.sb-caption{font-size:13px;letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--ink-soft);
-  animation:sb-cap-in .5s ease both}
-.sb-caption.live{animation:none}
-@keyframes sb-cap-in{0%{opacity:0}}
-@keyframes sb-cap-out{to{opacity:0}}
-.sb-hint{
-  margin:0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);
-  transition:opacity .4s ease;
-}
-.sb-hint.gone{opacity:0}
-.sb-wrap.intro .sb-full img,.sb-wrap.intro .sb-half-img{filter:url(#sb-mblur-1)}
-.sb-wrap.intro.b2 .sb-full img,.sb-wrap.intro.b2 .sb-half-img{filter:url(#sb-mblur-2)}
-.sb-wrap.intro .sb-caption{animation:none}
-.sb-wrap.intro .sb-caption.cap-out{display:none}
-@media (max-width:640px){
-  .hero-kicker{font-size:10.5px;letter-spacing:.16em}
-  .sb-wrap{width:100vw;margin-inline:calc(50% - 50vw)}
-  .sb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:70;padding:12px 6px}
-  .sb-arrow.left{left:2px}
-  .sb-arrow.right{right:2px}
-  .sb-3d{max-width:none}
-  .sb-hint{font-size:9.5px;letter-spacing:.1em;padding:0 16px;text-align:center}
-}
+  #note-editor-view { animation: fadeUp 0.18s ease both; }
+  .note-editor-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--outline-variant);
+  }
+  #note-title-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 2rem;
+    color: var(--on-surface);
+    outline: none;
+    margin-bottom: 0.5rem;
+    padding: 0 0 8px;
+    border-bottom: 1px solid var(--outline-variant);
+    transition: border-color 0.2s;
+  }
+  #note-title-input:focus { border-bottom: 2px solid var(--primary); padding-bottom: 7px; }
+  #note-title-input::placeholder { color: var(--on-surface-variant); }
+  #note-body-input {
+    width: 100%;
+    min-height: 220px;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    color: var(--on-surface);
+    outline: none;
+    resize: none;
+    line-height: 1.6;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+  #note-body-input::placeholder { color: var(--on-surface-variant); }
 
-/* ---------------- painted rules + sections ---------------- */
-.rule{
-  display:block;width:min(1080px,86vw);margin:clamp(30px,6vh,64px) auto;
-  height:clamp(26px,4vw,46px);
-  background:url(https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/339abd2c649a11f725af9114/divider.png) center / 100% auto no-repeat;
-  opacity:.5;
-}
-.rule.short{width:min(420px,52vw);opacity:.4}
-.section-label{
-  font-size:11px;letter-spacing:var(--track-caps);text-transform:uppercase;
-  color:var(--ink-faint);margin:0 0 18px;
-}
-.about{
-  position:relative;max-width:1080px;margin:0 auto;
-  padding:0 clamp(20px,5vw,48px);
-  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,5vw,60px);align-items:start;
-}
-.bio{font-size:clamp(17px,1.7vw,20px);line-height:1.74;letter-spacing:.005em;margin:0;font-weight:300;max-width:56ch}
-.bio-link{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(43,39,33,.28);
-  text-underline-offset:4px;transition:text-decoration-color .2s}
-.bio-link:hover{text-decoration-color:var(--ink)}
-.bloom{width:clamp(150px,17vw,260px);opacity:.9;user-select:none;align-self:center}
-@media (max-width:760px){
-  .about{grid-template-columns:1fr}
-  .bloom{width:170px;justify-self:center}
-}
+  .footer-credit {
+    position: fixed;
+    bottom: 1.5rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.4px;
+    color: var(--outline);
+    pointer-events: none;
+    z-index: 1;
+  }
 
-.plates{max-width:1080px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
-.plate-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--hairline)}
-.plate{
-  display:grid;grid-template-columns:3.4em minmax(0,1fr) auto;gap:18px;align-items:baseline;
-  width:100%;padding:15px 4px;border:0;border-bottom:1px solid var(--hairline);
-  background:transparent;text-align:left;cursor:pointer;color:inherit;
-  transition:background-color .22s ease,padding-left .22s ease;
-}
-.plate:hover,.plate[aria-current="true"]{background:rgba(255,252,244,.5);padding-left:12px}
-.plate .n{font-size:12px;color:var(--ink-faint);letter-spacing:var(--track-nav)}
-.plate .t{font-family:var(--display);font-size:clamp(19px,2.1vw,26px)}
-.plate .p{font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;text-align:right}
-.plate[aria-current="true"] .p{color:var(--earth)}
-
-.foot{font-size:11.5px;letter-spacing:var(--track-caps);text-transform:uppercase;
-  color:var(--ink-faint);text-align:center;padding-bottom:44px}
+  @media (min-width: 600px) {
+    body { padding: 3rem 1rem 5rem; background: var(--surface-high); }
+    .container {
+      max-width: 440px;
+      min-height: unset;
+      border-radius: 28px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+    }
+    ul, .notes-scroll { max-height: calc(100vh - 530px); }
+  }
 </style>
 </head>
 <body>
-<div class="wash" aria-hidden="true"></div>
-<main class="page home">
-
-  <header class="top">
-    <a class="name" href="#">Meng To</a>
-    <nav>
-      <a href="#plates">Journal</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <div class="top-socials">
-        <a href="#" class="icon-btn" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.7 2.6h3.3l-7.2 8.2 8.5 11.2h-6.7l-5.2-6.9-6 6.9H1.1l7.7-8.8L.7 2.6h6.9l4.7 6.3 5.4-6.3Zm-1.2 17.5h1.8L7.6 4.4H5.7l10.8 15.7Z"/></svg></a>
-        <a href="#" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.9 3.5a2.1 2.1 0 1 1 0 4.2 2.1 2.1 0 0 1 0-4.2ZM3.1 9.3h3.6v11.6H3.1V9.3Zm6 0h3.4v1.6h.05c.48-.9 1.65-1.85 3.4-1.85 3.63 0 4.3 2.35 4.3 5.4v6.45h-3.6v-5.72c0-1.36-.02-3.12-1.92-3.12-1.92 0-2.22 1.48-2.22 3.02v5.82H9.1V9.3Z"/></svg></a>
-        <a href="#" class="icon-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg></a>
-        <a href="#contact" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.4" y="4.6" width="19.2" height="14.8" rx="2.4"/><path d="m3.2 6.4 8.8 6.6 8.8-6.6"/></svg></a>
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>My Day</h1>
+      <div class="date" id="date-display"></div>
+    </div>
+    <div class="clock-block">
+      <div class="clock-time" id="clock-time"></div>
+      <div class="seconds-bar-track">
+        <div class="seconds-bar-fill" id="seconds-bar"></div>
       </div>
-    </nav>
-  </header>
+    </div>
+  </div>
 
-  <section id="sketchbook" class="hero">
-    <img crossorigin="anonymous" class="botany l" src="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/339abd2c649a11f725af9114/botany-left.png" alt="" aria-hidden="true">
-    <img crossorigin="anonymous" class="botany r" src="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/339abd2c649a11f725af9114/botany-right.png" alt="" aria-hidden="true">
+  <!-- App tabs -->
+  <div class="app-tabs">
+    <button class="app-tab active" onclick="switchApp('tasks')">Tasks</button>
+    <button class="app-tab"        onclick="switchApp('notes')">Notes</button>
+  </div>
 
-    <p class="hero-kicker">Designer / Creator / AI Educator / Founder @ Singapore</p>
+  <!-- ══ TASKS VIEW ══ -->
+  <div id="tasks-view">
+    <div class="input-wrap">
+      <input type="text" id="task-input" placeholder="Add a task..." maxlength="80" autocomplete="off">
+      <button class="add-btn" onclick="addTask()" title="Add (Enter)">+</button>
+    </div>
+    <div class="toolbar">
+      <button class="priority-btn active-low" data-p="low"  onclick="selectPriority('low')">Low</button>
+      <button class="priority-btn"            data-p="mid"  onclick="selectPriority('mid')">Mid</button>
+      <button class="priority-btn"            data-p="high" onclick="selectPriority('high')">High</button>
+    </div>
+    <div class="divider"></div>
+    <div class="filters">
+      <button class="filter-btn active" data-f="all"    onclick="setFilter('all')">All <span id="cnt-all"></span></button>
+      <button class="filter-btn"        data-f="active" onclick="setFilter('active')">Active <span id="cnt-active"></span></button>
+      <button class="filter-btn"        data-f="done"   onclick="setFilter('done')">Done <span id="cnt-done"></span></button>
+    </div>
+    <ul id="task-list"></ul>
+    <div class="footer-row">
+      <span class="task-counter" id="task-counter"></span>
+      <div class="footer-actions">
+        <button class="ghost-btn danger" id="clear-btn" onclick="clearDone()">Clear done</button>
+        <button class="ghost-btn" id="sort-btn" onclick="toggleSort()">Sort</button>
+      </div>
+    </div>
+  </div>
 
-    <div class="sb-wrap" id="sbWrap">
-      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-        <filter id="sb-mblur-1"><feGaussianBlur stdDeviation="5 0"/></filter>
-        <filter id="sb-mblur-2"><feGaussianBlur stdDeviation="14 0"/></filter>
-      </svg>
-      <div class="sb-stage" id="sbStage">
-        <button class="sb-arrow left" id="sbLeft" aria-label="previous page">
-          <svg viewBox="0 0 14 44" width="14" height="44" fill="none" aria-hidden="true"><polyline points="11,3 3,22 11,41" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="sb-3d" id="sb3d">
-          <div class="sb-tilt" id="sbTilt">
-            <div class="sb-cast ambient" aria-hidden="true"></div>
-            <div class="sb-cast contact" aria-hidden="true"></div>
-            <div class="sb-cast hair" aria-hidden="true"></div>
-            <div class="sb-book" id="sbBook"></div>
-          </div>
-          <div class="zoomwrap" id="zoomWrap" aria-hidden="true"><div class="zoominner" id="zoomInner"></div></div>
-          <div class="loupe" id="loupe"><span class="grip"></span><span class="ring"><span class="lens" id="loupeLens"><span class="mag" id="loupeMag"></span></span></span></div>
+  <!-- ══ NOTES VIEW ══ -->
+  <div id="notes-view" style="display:none;">
+
+    <!-- Notes list -->
+    <div id="notes-list-view">
+      <button class="note-add-row" onclick="newNote()">+ New note...</button>
+      <div class="divider"></div>
+      <div class="notes-filter-row">
+        <button class="note-filter-btn active" data-nf="all"      onclick="setNoteFilter('all')">All <span id="ncnt-all"></span></button>
+        <button class="note-filter-btn"        data-nf="active"   onclick="setNoteFilter('active')">Active <span id="ncnt-active"></span></button>
+        <button class="note-filter-btn"        data-nf="archived" onclick="setNoteFilter('archived')">Archived <span id="ncnt-archived"></span></button>
+      </div>
+      <div class="notes-scroll" id="notes-list"></div>
+      <div class="notes-footer-row">
+        <span class="notes-counter" id="notes-counter"></span>
+        <div class="footer-actions">
+          <button class="ghost-btn danger" id="clear-archived-btn" onclick="clearArchived()" style="display:none;">Clear archived</button>
         </div>
-        <button class="sb-arrow right" id="sbRight" aria-label="next page">
-          <svg viewBox="0 0 14 44" width="14" height="44" fill="none" aria-hidden="true"><polyline points="3,3 11,22 3,41" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
       </div>
-      <div class="sb-captions" id="sbCaptions"></div>
-      <div class="sb-tools" role="group" aria-label="view controls">
-        <button class="tool" id="zOut" aria-label="zoom out"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8"/></svg></button>
-        <span class="zoom-read" id="zRead">100%</span>
-        <button class="tool" id="zIn" aria-label="zoom in"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8M8.6 6.2v4.8"/></svg></button>
-        <span class="tool-sep" aria-hidden="true"></span>
-        <button class="tool" id="loupeBtn" aria-label="magnifier" aria-pressed="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.8" cy="8.8" r="5.8"/><path d="M13 13l4.4 4.4"/><path d="M6.4 7.2a3.2 3.2 0 0 1 2.4-1.4" opacity=".55"/></svg></button>
-      </div>
-      <p class="sb-hint" id="sbHint">Drag the page to turn · Drag the glass across it</p>
     </div>
 
-    <button class="hero-down" id="heroDown" aria-label="scroll to about">
-      <svg viewBox="0 0 44 22" width="34" height="17" fill="none" aria-hidden="true">
-        <polyline points="3,3 22,11 41,3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-        <polyline points="3,11 22,19 41,11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </section>
-
-  <div class="rule" aria-hidden="true"></div>
-
-  <section id="about" class="about">
-    <div>
-      <p class="section-label">About</p>
-      <p class="bio">Meng To is a designer, creator, and AI educator based in Singapore. He is the founder of <a class="bio-link" href="#">Design+Code</a>, where for over a decade he has taught designers and developers to build real apps — from Sketch and Xcode through SwiftUI, and now the AI tools that let one person ship what used to take a team. His work lives on the seam between craft and code: teaching designers to build, and builders to see. This sketchbook is the other half of that — the city looked at slowly, in <a class="bio-link" href="#">ink and a little colour</a>: shophouse shutters, hawker tents, the bay at dusk.</p>
+    <!-- Note editor -->
+    <div id="note-editor-view" style="display:none;">
+      <div class="note-editor-topbar">
+        <button class="ghost-btn" onclick="closeEditor()">← Back</button>
+        <div style="display:flex;gap:6px;">
+          <button class="ghost-btn" id="archive-toggle-btn" onclick="toggleArchiveCurrent()">Archive</button>
+          <button class="ghost-btn danger" onclick="deleteCurrentNote()">Delete</button>
+        </div>
+      </div>
+      <input type="text" id="note-title-input" placeholder="Note title..." maxlength="60" autocomplete="off">
+      <textarea id="note-body-input" placeholder="Start writing..."></textarea>
     </div>
-    <img crossorigin="anonymous" class="bloom" src="https://ublctyddhtbgaersvxxb.supabase.co/storage/v1/object/public/threeui-media/scene-images/339abd2c649a11f725af9114/bloom.png" alt="" aria-hidden="true">
-  </section>
 
-  <div class="rule short" aria-hidden="true"></div>
+  </div>
+</div>
 
-  <section id="plates" class="plates">
-    <p class="section-label">Plates</p>
-    <ol class="plate-list" id="plateList"></ol>
-  </section>
+<div class="toast" id="toast">
+  Task removed
+  <button class="toast-undo" onclick="undoDelete()">Undo</button>
+</div>
 
-  <div class="rule short" aria-hidden="true"></div>
-  <p class="foot" id="contact">Singapore · Sketchbook · <a href="#" class="bio-link">hello@mengto.com</a></p>
-</main>
+<div class="footer-credit">© 2026 Surajit Laskar</div>
+<div id="stats-bar" style="text-align:center;font-size:0.72rem;color:#79747E;position:fixed;bottom:0.25rem;width:100%;pointer-events:none;z-index:1;"></div>
 
 <script>
-/* =====================================================================
-   Meng To — sketchbook hero.
-   Spreads are transparent PNGs of an open sketchbook generated with
-   Higgsfield.  The leaf that turns is a real curved surface: a chain of
-   nested strips whose tangent sweeps through an arc, so the page bends
-   the way paper bends instead of pivoting like a flat door.
-   ===================================================================== */
-const Q=new URLSearchParams(location.search);
-const DIR='meng-to-sketchbook/';
-const PAGES=[
-  {file:'marina-bay-sands.png',   title:'Marina Bay Sands',          place:'Bayfront'},
-  {file:'gardens-by-the-bay.png', title:'Gardens by the Bay',        place:'Supertree Grove'},
-  {file:'merlion.png',            title:'The Merlion',               place:'Merlion Park'},
-  {file:'buddha-tooth.png',       title:'Buddha Tooth Relic Temple', place:'Chinatown'},
-  {file:'joo-chiat.png',          title:'Joo Chiat Shophouses',      place:'Katong'},
-  {file:'lau-pa-sat.png',         title:'Lau Pa Sat',                place:'Raffles Quay'},
-  {file:'marina-bay-skyline.png', title:'Marina Bay Skyline',        place:'The Bay'},
-  {file:'singapore-river.png',    title:'Singapore River',           place:'Boat Quay'},
-  {file:'botanic-gardens.png',    title:'Botanic Gardens',           place:'Tanglin'}
-];
-PAGES.forEach(p=>p.url=DIR+p.file);
-const M=PAGES.length, LAND=6;
+// ══════════════════════════════════════
+// TASKS
+// ══════════════════════════════════════
+var tasks            = JSON.parse(localStorage.getItem('myDay_tasks') || '[]');
+var selectedPriority = 'low';
+var activeFilter     = 'all';
+var sortByPriority   = false;
+var deletedTask      = null;
+var deletedIndex     = null;
+var toastTimer       = null;
+var priorityOrder    = { high: 0, mid: 1, low: 2 };
+var dragSrcId        = null;
 
-const wrap=document.getElementById('sbWrap');
-const stage=document.getElementById('sbStage');
-const sb3d=document.getElementById('sb3d');
-const book=document.getElementById('sbBook');
-const capBox=document.getElementById('sbCaptions');
-const hint=document.getElementById('sbHint');
-const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function save() { localStorage.setItem('myDay_tasks', JSON.stringify(tasks)); }
 
-/* ------------------------------------------------ the turning leaf */
-const N=18;            /* strips — enough for a smooth curve          */
-const SPAN=0.449;      /* gutter → outer page edge, as a fraction     */
-const BETA=0.60;       /* peak curl of the arc, radians              */
-let idx=0, turn=null;  /* turn = {dir, from, to, t}                   */
-let strips=[];         /* the chain, kept for per-frame lighting       */
-
-function el(t,c){const e=document.createElement(t);if(c)e.className=c;return e}
-function imgEl(i,side){
-  const im=new __threeuiStorageImage();im.className='sb-half-img '+side;
-  im.draggable=false;im.alt='';im.src=PAGES[i].url;return im;
-}
-
-function halfEl(pos,i){
-  const d=el('div','sb-half '+pos);
-  d.appendChild(imgEl(i,pos));
-  d.appendChild(el('div','gutter-shade '+pos));
-  return d;
-}
-/* build the strip chain once per turn; background offsets are pure
-   geometry, so they never need touching again while it animates */
-function buildCurl(dir,from,to){
-  strips=[];
-  const c=el('div','curl '+dir);
-  c.style.setProperty('--n',N);
-  c.style.setProperty('--span',SPAN);
-  let host=c;
-  for(let i=0;i<N;i++){
-    const s=el('div','strip');
-    s.style.setProperty('--i',i);
-    const gut='calc(var(--bw) * 0.5)';
-    const sw='calc(var(--bw) * '+SPAN+' / '+N+')';
-    const A='calc(-1 * ('+gut+' + '+i+' * '+sw+'))';         /* faces the from-page  */
-    const B='calc('+(i+1)+' * '+sw+' - '+gut+')';            /* faces the to-page    */
-    const f=el('div','face front'), b=el('div','face back');
-    const dress=(e,url,px)=>{
-      e.style.backgroundImage='url('+url+')';
-      e.style.backgroundPositionX=px;
-    };
-    dress(f,PAGES[from].url, dir==='next'?A:B);
-    dress(b,PAGES[to].url,   dir==='next'?B:A);
-    f.appendChild(el('div','sh'));f.appendChild(el('div','gl'));
-    b.appendChild(el('div','sh'));b.appendChild(el('div','gl'));
-    s.appendChild(f);s.appendChild(b);
-    if(i===N-1)s.classList.add('edge');
-    host.appendChild(s);host=s;
-    strips.push(s);
-  }
-  return c;
-}
-function applyTurn(t){
-  const th=Math.PI*t;                       /* how far the leaf has swung */
-  const beta=BETA*Math.sin(Math.PI*t);      /* it is flat at both ends    */
-  const D=180/Math.PI;
-  const tt=th+beta, td=2*beta/N;
-  sb3d.style.setProperty('--tt',(tt*D).toFixed(2)+'deg');
-  sb3d.style.setProperty('--td',(td*D).toFixed(3)+'deg');
-  sb3d.style.setProperty('--shade',Math.sin(Math.PI*t).toFixed(3));
-  fadeCaption(t);
-  for(let i=0;i<strips.length;i++){
-    const l1=Math.abs(Math.cos(tt-i*td));        /* facing at this strip's near edge */
-    const l2=Math.abs(Math.cos(tt-(i+1)*td));    /* ...and at its far edge           */
-    const st=strips[i].style;
-    st.setProperty('--lit',l1.toFixed(3));
-    st.setProperty('--a1',((1-l1)*.62).toFixed(3));
-    st.setProperty('--a2',((1-l2)*.62).toFixed(3));
-  }
-}
-function paint(){
-  book.textContent='';
-  if(!turn){
-    const f=el('div','sb-full');
-    const im=new __threeuiStorageImage();im.src=PAGES[idx].url;im.alt=PAGES[idx].title;
-    im.draggable=false;
-    f.appendChild(im);book.appendChild(f);
-    sb3d.style.setProperty('--shade','0');
-  }else{
-    const next=turn.dir==='next';
-    book.appendChild(halfEl('left', next?turn.from:turn.to));
-    book.appendChild(halfEl('right',next?turn.to:turn.from));
-    book.appendChild(buildCurl(turn.dir,turn.from,turn.to));
-    applyTurn(turn.t);
-  }
-  const a=el('button','sb-zone sb-prev'),b=el('button','sb-zone sb-next');
-  a.setAttribute('aria-label','previous page');b.setAttribute('aria-label','next page');
-  book.appendChild(a);book.appendChild(b);
-  layout();
-  caption();
-  marks();
-  if(typeof syncZoomLayer==='function')syncZoomLayer();
-  if(typeof placeLoupe==='function')placeLoupe();
-}
-function caption(){
-  capBox.textContent='';
-  capOut=capIn=null;
-  if(turn){
-    capOut=el('p','sb-caption live');capOut.textContent=PAGES[turn.from].title;capBox.appendChild(capOut);
-    capIn=el('p','sb-caption live');capIn.textContent=PAGES[turn.to].title;capBox.appendChild(capIn);
-    fadeCaption(turn.t);
-  }else{
-    const p=el('p','sb-caption');p.textContent=PAGES[idx].title;capBox.appendChild(p);
-  }
-}
-let capOut=null,capIn=null;
-function fadeCaption(t){
-  if(!capOut||!capIn)return;
-  /* the old title is gone before the new one arrives, so they never
-     sit on top of each other mid-drag */
-  const out=1-Math.max(0,Math.min(1,(t-0.10)/0.28));
-  const inn=Math.max(0,Math.min(1,(t-0.56)/0.30));
-  capOut.style.opacity=out.toFixed(3);
-  capIn.style.opacity=inn.toFixed(3);
-}
-function layout(){
-  sb3d.style.setProperty('--bw',book.clientWidth+'px');
-}
-addEventListener('resize',layout);
-
-/* ------------------------------------------------------ spring loop */
-let spring=null;
-function animateTo(target,onDone,stiff,damp){
-  spring={kind:'spring',v:0,target:target,done:onDone,k:stiff||150,c:damp||22};
-  kick();
-}
-/* the riffle wants a fixed tempo, not a spring settling time */
-function tweenTo(target,dur,onDone){
-  spring={kind:'tween',from:turn?turn.t:0,target:target,dur:dur,e:0,done:onDone};
-  kick();
-}
-let raf=null,last=0;
-function tick(now){
-  raf=null;
-  const dt=Math.min(0.032,(now-last)/1000||0.016);last=now;
-  if(spring&&turn){
-    const s=spring;
-    if(s.kind==='tween'){
-      s.e+=dt;
-      const k=Math.min(1,s.e/s.dur);
-      turn.t=s.from+(s.target-s.from)*k;
-      applyTurn(turn.t);
-      if(k>=1){spring=null;const d=s.done;d&&d();}
-    }else{
-      const x=turn.t-s.target;
-      s.v+= (-s.k*x - s.c*s.v)*dt;
-      turn.t+=s.v*dt;
-      if(Math.abs(turn.t-s.target)<0.002&&Math.abs(s.v)<0.02){
-        turn.t=s.target;spring=null;
-        applyTurn(turn.t);
-        const d=s.done;d&&d();
-      }else applyTurn(turn.t);
-    }
-  }
-  viewSpring();
-  const lmoved=loupeEase();
-  /* kick() may already have queued the next frame from a done-callback */
-  if((spring||viewActive||lmoved)&&raf===null) raf=requestAnimationFrame(tick);
-}
-function kick(){ if(raf===null){last=performance.now();raf=requestAnimationFrame(tick);} }
-
-/* ------------------------------------------- tilt + zoom of the book */
-const TILT_X=4.5, TILT_Y=7;      /* degrees — deliberately restrained   */
-const ZOOM_MIN=0.9, ZOOM_MAX=1.5;
-const view={rx:0,ry:0,z:1, trx:0,try_:0,tz:1};
-let viewActive=false;
-let lastZ=1;
-function applyView(){
-  sb3d.style.setProperty('--rx',view.rx.toFixed(2)+'deg');
-  sb3d.style.setProperty('--ry',view.ry.toFixed(2)+'deg');
-  sb3d.style.setProperty('--zoom',view.z.toFixed(3));
-  /* the glass stays put, but the page under it has moved */
-  if(view.z!==lastZ){lastZ=view.z;if(typeof placeLoupe==='function')placeLoupe();}
-}
-function viewSpring(){
-  const e=0.14;
-  let moved=false;
-  for(const [k,t] of [['rx','trx'],['ry','try_'],['z','tz']]){
-    const d=view[t]-view[k];
-    if(Math.abs(d)>0.0006){view[k]+=d*e;moved=true;}
-    else view[k]=view[t];
-  }
-  if(moved)applyView();
-  viewActive=moved;
-  return moved;
-}
-function setView(rx,ry,z){
-  view.trx=Math.max(-TILT_X,Math.min(TILT_X,rx));
-  view.try_=Math.max(-TILT_Y,Math.min(TILT_Y,ry));
-  view.tz=Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,z));
-  viewActive=true;kick();
-  if(typeof syncZoom==='function')syncZoom();
-}
-/* the book leans toward the cursor — no dragging, and never far */
-function tiltTo(cx,cy){
-  if(drag)return;                       /* hold still while a page is being turned */
-  const r=book.getBoundingClientRect();
-  if(!r.width)return;
-  const nx=Math.max(-1,Math.min(1,(cx-(r.left+r.width/2))/(r.width*0.62)));
-  const ny=Math.max(-1,Math.min(1,(cy-(r.top+r.height/2))/(r.height*0.9)));
-  setView(-ny*TILT_X, nx*TILT_Y, view.tz);
-}
-addEventListener('pointermove',e=>{
-  if(e.pointerType==='touch')return;
-  tiltTo(e.clientX,e.clientY);
-},{passive:true});
-addEventListener('pointerout',e=>{if(!e.relatedTarget)setView(0,0,view.tz)});
-addEventListener('blur',()=>setView(0,0,view.tz));
-/* the wheel belongs to the page — zoom is on the toolbar, or a double click
-   to come back to 100% */
-stage.addEventListener('dblclick',()=>setView(view.trx,view.try_,1));
-
-/* ------------------------------------------------------- pointer work */
-let drag=null;
-function bookRect(){return book.getBoundingClientRect()}
-function hideHint(){hint.classList.add('gone')}
-
-stage.addEventListener('pointerdown',e=>{
-  if(e.button!==0)return;
-  e.preventDefault();                     /* no text selection, no image drag */
-  const onBook=e.target.closest('.sb-zone');
-  stage.setPointerCapture(e.pointerId);
-  hideHint();
-  if(!onBook||introOn)return;
-  const r=bookRect();
-  const dir=(e.clientX-r.left)/r.width>0.5?'next':'prev';
-  startTurn(dir,0);
-  drag={dir:dir,x0:e.clientX,w:r.width,moved:0,vel:0,tPrev:performance.now()};
-});
-stage.addEventListener('pointermove',e=>{
-  if(!drag)return;
-  const dx=e.clientX-drag.x0;
-  drag.moved=Math.max(drag.moved,Math.abs(dx));
-  const raw=(drag.dir==='next'? -dx : dx)/(drag.w*0.62);
-  const t=Math.max(0,Math.min(1,raw));
-  const now=performance.now();
-  drag.vel=(t-(turn?turn.t:0))/Math.max(0.001,(now-drag.tPrev)/1000);
-  drag.tPrev=now;
-  if(turn){turn.t=t;applyTurn(t);}
-});
-function endDrag(e){
-  if(!drag)return;
-  const d=drag;drag=null;
-  if(!turn)return;
-  if(d.moved<6){                              /* a tap, not a drag */
-    commit();return;
-  }
-  const go = turn.t>0.42 || d.vel>1.1;
-  if(go)commit(); else cancel();
-}
-stage.addEventListener('dragstart',e=>e.preventDefault());
-stage.addEventListener('selectstart',e=>e.preventDefault());
-stage.addEventListener('pointerup',endDrag);
-stage.addEventListener('pointercancel',endDrag);
-
-/* ------------------------------------------------------ turn control */
-function startTurn(dir,t){
-  spring=null;
-  if(turn){idx=turn.to;turn=null;}      /* settle anything still in flight */
-  if(typeof shoveLoupe==='function')shoveLoupe(dir);
-  const from=idx;
-  turn={dir:dir,from:from,to:dir==='next'?(from+1)%M:(from-1+M)%M,t:t||0};
-  paint();
-}
-function commit(){
-  if(!turn)return;
-  if(REDUCED){idx=turn.to;turn=null;paint();return;}
-  animateTo(1,()=>{idx=turn.to;turn=null;paint();},170,26);
-  kick();
-}
-function cancel(){
-  if(!turn)return;
-  animateTo(0,()=>{turn=null;paint();},150,24);
-  kick();
-}
-function step(dir){
-  if(introOn)endIntro();
-  if(turn){ /* finish whatever is in flight first */ idx=turn.to;turn=null; }
-  startTurn(dir,0);commit();
-}
-function goTo(i){
-  if(introOn)endIntro();
-  if(i===idx)return;
-  if(turn){idx=turn.to;turn=null;}
-  const fwd=(i-idx+M)%M, back=(idx-i+M)%M;
-  if(Math.min(fwd,back)===1){step(fwd===1?'next':'prev');return;}
-  idx=i;paint();
-}
-document.getElementById('sbLeft').onclick=()=>step('prev');
-document.getElementById('sbRight').onclick=()=>step('next');
-addEventListener('keydown',e=>{
-  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
-  if(e.metaKey||e.ctrlKey||e.altKey)return;
-  const t=e.target;
-  if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
-  e.preventDefault();hideHint();
-  step(e.key==='ArrowRight'?'next':'prev');
-});
-document.getElementById('heroDown').onclick=()=>{
-  document.getElementById('about').scrollIntoView({behavior:'smooth',block:'start'});
-};
-
-/* --------------------------------------------------- loupe + controls */
-const loupe=document.getElementById('loupe');
-const lens=document.getElementById('loupeLens');
-const mag=document.getElementById('loupeMag');
-const zRead=document.getElementById('zRead');
-const loupeBtn=document.getElementById('loupeBtn');
-const zInBtn=document.getElementById('zIn'), zOutBtn=document.getElementById('zOut');
-const MAG=2.3;
-const DESK=getComputedStyle(document.documentElement).getPropertyValue('--paper').trim()||'#ece7dc';
-let loupeOn=true, lx=null, ly=null, lgrab=null, lTarget=null;
-
-function loupeSize(){return Math.round(Math.max(165,Math.min(262,book.clientWidth*0.235)));}
-/* the loupe's own coordinate space: stage pixels in live mode (it sits
-   outside the book's transform), book pixels otherwise */
-function bookBox(){
-  return {x:0,y:0,w:book.clientWidth,h:book.clientHeight};
-}
-/* park it on the desk at the lower right, half off the book */
-function restLoupe(){
-  const b=bookBox();
-  lx=b.x+b.w*0.88; ly=b.y+b.h*0.855;
-  placeLoupe();
-}
-/* The glass sits above the tilt, in the book's untransformed pixels, so the
-   lean of the page never nudges it.  What the tilt does change is which part
-   of the paper is under the glass, and only the scale matters enough to
-   correct for: the book is drawn about its own centre. */
-const zoomWrap=document.getElementById('zoomWrap');
-const zoomInner=document.getElementById('zoomInner');
-/* mirror whatever the book is currently showing into the magnified copy */
-function syncZoomLayer(){
-  zoomInner.textContent='';
-  for(const c of book.children){
-    if(c.classList.contains('sb-zone'))continue;      /* hit targets need no copy */
-    zoomInner.appendChild(c.cloneNode(true));
-  }
-}
-function placeLoupe(){
-  if(lx===null)return;
-  const B=bookBox(), bw=B.w, bh=B.h;
-  if(!bw)return;
-  const R=loupeSize()/2, bez=R*2*0.058;
-  loupe.style.setProperty('--lr',R*2+'px');
-  loupe.style.transform='translate3d('+(lx-R).toFixed(1)+'px,'+(ly-R).toFixed(1)+'px,0)';
-  if(loupeOn)loupe.classList.add('on');
-
-  /* where the paper's edges actually land once the book is scaled */
-  const z=view.z, cx=bw/2, cy=bh/2;
-  const x0=cx+(bw*.051-cx)*z, x1=cx+(bw*.949-cx)*z;
-  const y0=cy+(bh*.218-cy)*z, y1=cy+(bh*.782-cy)*z;
-  /* How far the glass's own centre is inside the paper.  The copy fades out
-     as it wanders off the sheet, so you are left looking through plain
-     glass rather than at a sliver of page on flat desk. */
-  const nx=Math.max(x0,Math.min(lx,x1));
-  const ny=Math.max(y0,Math.min(ly,y1));
-  const inside=(lx>x0&&lx<x1&&ly>y0&&ly<y1)
-    ? Math.min(lx-x0, x1-lx, ly-y0, y1-ly)
-    : -Math.hypot(lx-nx,ly-ny);
-  const k=Math.max(0,Math.min(1,(inside+R*0.30)/(R*0.55)));
-
-  zoomWrap.style.opacity=(loupeOn?k:0).toFixed(3);
-  if(k<=0.002)return;
-  const r=(R-bez).toFixed(1);
-  const mask='radial-gradient(circle '+r+'px at '+lx.toFixed(1)+'px '+ly.toFixed(1)+'px,'
-    +'#000 calc(100% - 1px),transparent 100%)';
-  zoomWrap.style.webkitMaskImage=mask;
-  zoomWrap.style.maskImage=mask;
-  /* the page point beneath the glass, magnified about that same spot so the
-     lens keeps showing MAG times whatever is on screen */
-  const px=cx+(lx-cx)/z, py=cy+(ly-cy)/z, s=MAG*z;
-  zoomInner.style.transform='translate('+(lx-px*s).toFixed(1)+'px,'+(ly-py*s).toFixed(1)+'px) '
-    +'scale('+s.toFixed(4)+')';
-}
-/* the leaf shoves the glass aside as it sweeps past */
-function shoveLoupe(dir){
-  if(!loupeOn||lx===null||lgrab)return;
-  const b=bookBox();
-  /* which page point the glass covers, once the book's scale is undone */
-  const nx=(b.w/2+(lx-b.x-b.w/2)/view.z)/b.w, ny=(b.h/2+(ly-b.y-b.h/2)/view.z)/b.h;
-  if(nx<0.02||nx>0.98||ny<0.17||ny>0.83)return;      /* already clear of the page */
-  lTarget={x:b.x+b.w*(dir==='next'?0.12:0.88), y:b.y+b.h*0.855};
-  kick();
-}
-function loupeEase(){
-  if(!lTarget)return false;
-  if(lgrab){lTarget=null;return false;}
-  const dx=lTarget.x-lx, dy=lTarget.y-ly;
-  if(Math.abs(dx)<0.5&&Math.abs(dy)<0.5){lx=lTarget.x;ly=lTarget.y;lTarget=null;placeLoupe();return false;}
-  lx+=dx*0.17;ly+=dy*0.17;placeLoupe();
-  return true;
-}
-loupe.addEventListener('pointerdown',e=>{
-  if(!loupeOn||e.button!==0)return;
-  e.preventDefault();e.stopPropagation();     /* never starts a page turn */
-  lTarget=null;
-  lgrab={cx:e.clientX,cy:e.clientY,lx0:lx,ly0:ly};
-  loupe.classList.add('held');
-  loupe.setPointerCapture(e.pointerId);
-  hideHint();
-});
-loupe.addEventListener('pointermove',e=>{
-  if(!lgrab)return;
-  const b=bookBox(), R=loupeSize()/2;
-  /* the glass carries none of the book's transform, so the cursor maps 1:1 */
-  lx=Math.max(b.x-R*0.7,Math.min(b.x+b.w+R*0.7, lgrab.lx0+(e.clientX-lgrab.cx)));
-  ly=Math.max(b.y-R*0.7,Math.min(b.y+b.h+R*1.0, lgrab.ly0+(e.clientY-lgrab.cy)));
-  placeLoupe();
-});
-function dropLoupe(){lgrab=null;loupe.classList.remove('held');}
-loupe.addEventListener('pointerup',dropLoupe);
-loupe.addEventListener('pointercancel',dropLoupe);
-loupeBtn.onclick=()=>{
-  loupeOn=!loupeOn;
-  loupeBtn.setAttribute('aria-pressed',String(loupeOn));
-  loupe.classList.toggle('on',loupeOn);
-  if(loupeOn&&lx===null)restLoupe();
-};
-addEventListener('resize',()=>{lx=null;restLoupe();});
-
-function syncZoom(){
-  zRead.textContent=Math.round(view.tz*100)+'%';
-  zOutBtn.disabled=view.tz<=ZOOM_MIN+0.001;
-  zInBtn.disabled=view.tz>=ZOOM_MAX-0.001;
-}
-zInBtn.onclick=()=>{setView(view.trx,view.try_,view.tz*1.16);hideHint();};
-zOutBtn.onclick=()=>{setView(view.trx,view.try_,view.tz/1.16);hideHint();};
-
-/* --------------------------------------------------------- the index */
-const plateList=document.getElementById('plateList');
-PAGES.forEach((p,i)=>{
-  const li=el('li');
-  const b=el('button','plate');
-  b.innerHTML='<span class="n">'+String(i+1).padStart(2,'0')+'</span>'+
-              '<span class="t"></span><span class="p"></span>';
-  b.querySelector('.t').textContent=p.title;
-  b.querySelector('.p').textContent=p.place;
-  b.onclick=()=>{goTo(i);document.getElementById('sketchbook').scrollIntoView({behavior:'smooth',block:'center'});};
-  li.appendChild(b);plateList.appendChild(li);
-});
-function marks(){
-  const cur=turn?turn.to:idx;
-  plateList.querySelectorAll('.plate').forEach((b,i)=>b.setAttribute('aria-current',i===cur?'true':'false'));
-}
-
-/* ---------------------------------------------------------- the riffle */
-let riffle=null,riffleAt=0,introOn=false;
-function endIntro(){
-  introOn=false;wrap.classList.remove('intro','b2');
-}
-function riffleStep(){
-  const s=riffle[riffleAt];
-  wrap.classList.toggle('b2',s.bell>0.55);
-  startTurn('next',0);
-  tweenTo(1,s.dur,()=>{
-    idx=turn.to;turn=null;
-    riffleAt++;
-    if(introOn&&riffleAt<riffle.length){paint();riffleStep();}
-    else{endIntro();paint();}
+function selectPriority(p) {
+  selectedPriority = p;
+  document.querySelectorAll('.priority-btn').forEach(function(btn) {
+    btn.className = 'priority-btn';
+    if (btn.dataset.p === p) btn.classList.add('active-' + p);
   });
 }
-function startIntro(){
-  const coarse=matchMedia('(max-width: 640px), (pointer: coarse)').matches;
-  if(coarse||REDUCED||Q.has('nointro')){idx=LAND;paint();return;}
-  const steps=M+LAND;
-  riffle=[];
-  for(let r=0;r<steps;r++){
-    const bell=Math.sin(Math.PI*(r/(steps-1)));
-    riffle.push({bell:bell,dur:0.26-0.19*bell});
-  }
-  riffleAt=0;introOn=true;wrap.classList.add('intro');
-  riffleStep();
+
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.f === f);
+  });
+  render();
 }
 
-/* ------------------------------------------------------------- boot */
-(async function boot(){
-  idx=Q.has('shot')?(parseInt(Q.get('shot'),10)||0)%M:0;
-  paint();applyView();
-  await Promise.all(PAGES.map(p=>{
-    const im=new __threeuiStorageImage();im.src=p.url;
-    return im.decode?im.decode().catch(()=>{}):new Promise(r=>{im.onload=im.onerror=r});
-  }));
-  if(document.fonts&&document.fonts.ready)await document.fonts.ready.catch(()=>{});
-  syncZoom();restLoupe();
-  document.body.dataset.ready='1';
-  if(Q.has('shot')){
-    if(Q.has('t')){startTurn(Q.get('dir')||'next',parseFloat(Q.get('t')));}
+function toggleSort() {
+  sortByPriority = !sortByPriority;
+  document.getElementById('sort-btn').classList.toggle('active', sortByPriority);
+  render();
+}
+
+function addTask() {
+  var input = document.getElementById('task-input');
+  var text  = input.value.trim();
+  if (!text) return;
+  tasks.push({ text: text, priority: selectedPriority, done: false, id: Date.now() });
+  input.value = '';
+  input.focus();
+  save(); render();
+}
+
+function toggleTask(id) {
+  var li = document.querySelector('li[data-id="' + id + '"]');
+  if (!li) return;
+  var t = tasks.find(function(t) { return t.id === id; });
+  li.classList.add('completing');
+  setTimeout(function() {
+    if (t) { t.done = !t.done; if (t.done) trackCompletion(); save(); render(); }
+  }, 200);
+}
+
+function editTask(id, el) {
+  var t = tasks.find(function(t) { return t.id === id; });
+  if (!t || t.done) return;
+  var prev = t.text;
+  el.contentEditable = 'true';
+  el.focus();
+  var range = document.createRange();
+  range.selectNodeContents(el);
+  var sel = window.getSelection();
+  sel.removeAllRanges(); sel.addRange(range);
+  el.style.outline = 'none';
+  el.style.borderBottom = '1.5px solid var(--accent)';
+  el.style.paddingBottom = '1px';
+  function finish(cancel) {
+    el.contentEditable = 'false';
+    el.style.borderBottom = '';
+    el.style.paddingBottom = '';
+    var newText = el.textContent.trim();
+    if (cancel || !newText) { el.textContent = prev; return; }
+    t.text = newText; save();
+  }
+  el.onblur = function() { finish(false); };
+  el.onkeydown = function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); finish(false); }
+    if (e.key === 'Escape') { finish(true); }
+  };
+}
+
+function deleteTask(id, e) {
+  e.stopPropagation();
+  var idx = tasks.findIndex(function(t) { return t.id === id; });
+  if (idx === -1) return;
+  deletedTask = tasks[idx]; deletedIndex = idx;
+  tasks.splice(idx, 1);
+  save(); render(); showToast();
+}
+
+function reorderTask(srcId, targetId) {
+  if (srcId === targetId) return;
+  var srcIdx    = tasks.findIndex(function(t) { return t.id === srcId; });
+  var targetIdx = tasks.findIndex(function(t) { return t.id === targetId; });
+  if (srcIdx === -1 || targetIdx === -1) return;
+  var moved = tasks.splice(srcIdx, 1)[0];
+  tasks.splice(targetIdx, 0, moved);
+  save(); render();
+}
+
+function trackCompletion() {
+  var stats = JSON.parse(localStorage.getItem('myDay_stats') || '{}');
+  var today = new Date().toISOString().slice(0, 10);
+  stats[today] = (stats[today] || 0) + 1;
+  localStorage.setItem('myDay_stats', JSON.stringify(stats));
+}
+
+function getStats() {
+  var stats = JSON.parse(localStorage.getItem('myDay_stats') || '{}');
+  var today = new Date().toISOString().slice(0, 10);
+  var todayCount = stats[today] || 0;
+  var total = Object.values(stats).reduce(function(a,b){ return a+b; }, 0);
+  var days = Object.keys(stats).length;
+  return { today: todayCount, total: total, days: days };
+}
+
+function undoDelete() {
+  if (!deletedTask) return;
+  tasks.splice(deletedIndex, 0, deletedTask);
+  deletedTask = null;
+  save(); render(); hideToast();
+}
+
+function showToast() {
+  clearTimeout(toastTimer);
+  document.getElementById('toast').classList.add('show');
+  toastTimer = setTimeout(hideToast, 4000);
+}
+function hideToast() { document.getElementById('toast').classList.remove('show'); }
+function clearDone() { tasks = tasks.filter(function(t) { return !t.done; }); save(); render(); }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render() {
+  var list = document.getElementById('task-list');
+  list.innerHTML = '';
+  var total  = tasks.length;
+  var active = tasks.filter(function(t){ return !t.done; }).length;
+  var done   = tasks.filter(function(t){ return t.done; }).length;
+  document.getElementById('cnt-all').textContent    = total  ? '('+total+')'  : '';
+  document.getElementById('cnt-active').textContent = active ? '('+active+')' : '';
+  document.getElementById('cnt-done').textContent   = done   ? '('+done+')'   : '';
+  document.getElementById('task-counter').textContent = total === 0 ? '' : (active + ' of ' + total + ' remaining');
+  document.getElementById('clear-btn').classList.toggle('visible', done > 0);
+  var visible = tasks.slice();
+  if (activeFilter === 'active') visible = visible.filter(function(t){ return !t.done; });
+  if (activeFilter === 'done')   visible = visible.filter(function(t){ return t.done; });
+  if (sortByPriority) visible.sort(function(a,b){ return priorityOrder[a.priority]-priorityOrder[b.priority]; });
+  if (visible.length === 0) {
+    var icons = {
+      all:    '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M9 12l2 2 4-4"/></svg>',
+      active: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>',
+      done:   '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>'
+    };
+    var msgs = { all: 'No tasks yet.', active: 'All caught up.', done: 'Nothing completed yet.' };
+    list.innerHTML = '<div class="empty-state">'+icons[activeFilter]+'<div>'+msgs[activeFilter]+'</div></div>';
     return;
   }
-  setTimeout(startIntro,220);
-})();
+  visible.forEach(function(task) {
+    var li = document.createElement('li');
+    li.dataset.id = task.id;
+    li.dataset.p  = task.priority;
+    if (task.done) li.classList.add('done');
+    li.draggable = true;
+    li.onclick = function() { toggleTask(task.id); };
+    li.ondragstart = function() { li.classList.add('dragging'); dragSrcId = task.id; };
+    li.ondragend   = function() { li.classList.remove('dragging'); document.querySelectorAll('li.drag-over').forEach(function(el){ el.classList.remove('drag-over'); }); };
+    li.ondragover  = function(e) { e.preventDefault(); document.querySelectorAll('li.drag-over').forEach(function(el){ el.classList.remove('drag-over'); }); li.classList.add('drag-over'); };
+    li.ondrop      = function(e) { e.preventDefault(); reorderTask(dragSrcId, task.id); };
+    li.innerHTML =
+      '<div class="check-circle"></div>' +
+      '<div class="p-dot '+task.priority+'"></div>' +
+      '<span class="task-text" ondblclick="editTask('+task.id+',this)">'+esc(task.text)+'</span>' +
+      '<button class="delete-btn" onclick="deleteTask('+task.id+',event)" title="Delete">&#x2715;</button>';
+    list.appendChild(li);
+  });
+  updateStats();
+}
+
+function updateStats() {
+  var s = getStats();
+  var el = document.getElementById('stats-bar');
+  if (!el) return;
+  if (s.total === 0) { el.textContent = ''; return; }
+  el.textContent = s.today + ' done today · ' + s.total + ' total across ' + s.days + ' day' + (s.days===1?'':'s');
+}
+
+// ══════════════════════════════════════
+// NOTES
+// ══════════════════════════════════════
+var notes         = JSON.parse(localStorage.getItem('myDay_notes') || '[]');
+var currentNoteId = null;
+var noteFilter    = 'all';
+
+notes = notes.map(function(n) {
+  if (!n.category) n.category = 'personal';
+  if (n.archived === undefined) n.archived = false;
+  return n;
+});
+
+function saveNotes() { localStorage.setItem('myDay_notes', JSON.stringify(notes)); }
+
+function setNoteFilter(f) {
+  noteFilter = f;
+  document.querySelectorAll('.note-filter-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.nf === f);
+  });
+  renderNotes();
+}
+function newNote() {
+  var note = { id: Date.now(), title: '', body: '', category: 'personal', archived: false, updated: Date.now() };
+  notes.unshift(note);
+  saveNotes();
+  openNote(note.id);
+}
+
+function openNote(id) {
+  currentNoteId = id;
+  var note = notes.find(function(n){ return n.id === id; });
+  if (!note) return;
+  document.getElementById('note-title-input').value = note.title;
+  document.getElementById('note-body-input').value  = note.body;
+  document.getElementById('archive-toggle-btn').textContent = note.archived ? 'Unarchive' : 'Archive';
+  document.getElementById('notes-list-view').style.display  = 'none';
+  document.getElementById('note-editor-view').style.display = '';
+  document.getElementById('note-title-input').focus();
+}
+
+function closeEditor() {
+  var note = notes.find(function(n){ return n.id === currentNoteId; });
+  if (note) {
+    note.title   = document.getElementById('note-title-input').value.trim();
+    note.body    = document.getElementById('note-body-input').value.trim();
+    note.updated = Date.now();
+    if (!note.title && !note.body) {
+      notes = notes.filter(function(n){ return n.id !== currentNoteId; });
+    }
+    saveNotes();
+  }
+  currentNoteId = null;
+  document.getElementById('note-editor-view').style.display  = 'none';
+  document.getElementById('notes-list-view').style.display   = '';
+  renderNotes();
+}
+
+function toggleArchiveCurrent() {
+  var note = notes.find(function(n){ return n.id === currentNoteId; });
+  if (!note) return;
+  note.title   = document.getElementById('note-title-input').value.trim();
+  note.body    = document.getElementById('note-body-input').value.trim();
+  note.updated = Date.now();
+  note.archived = !note.archived;
+  saveNotes();
+  document.getElementById('archive-toggle-btn').textContent = note.archived ? 'Unarchive' : 'Archive';
+}
+
+function deleteCurrentNote() {
+  notes = notes.filter(function(n){ return n.id !== currentNoteId; });
+  saveNotes();
+  currentNoteId = null;
+  document.getElementById('note-editor-view').style.display  = 'none';
+  document.getElementById('notes-list-view').style.display   = '';
+  renderNotes();
+}
+
+function clearArchived() {
+  notes = notes.filter(function(n){ return !n.archived; });
+  saveNotes();
+  renderNotes();
+}
+
+function renderNotes() {
+  var list = document.getElementById('notes-list');
+  list.innerHTML = '';
+  var total    = notes.length;
+  var active   = notes.filter(function(n){ return !n.archived; }).length;
+  var archived = notes.filter(function(n){ return n.archived; }).length;
+  document.getElementById('ncnt-all').textContent      = total    ? '('+total+')'    : '';
+  document.getElementById('ncnt-active').textContent   = active   ? '('+active+')'   : '';
+  document.getElementById('ncnt-archived').textContent = archived ? '('+archived+')' : '';
+  document.getElementById('notes-counter').textContent = total === 0 ? '' : (active + ' active · ' + archived + ' archived');
+  var clearBtn = document.getElementById('clear-archived-btn');
+  clearBtn.style.display = archived > 0 ? '' : 'none';
+
+  var visible = notes.slice();
+  if (noteFilter === 'active')   visible = visible.filter(function(n){ return !n.archived; });
+  if (noteFilter === 'archived') visible = visible.filter(function(n){ return n.archived; });
+
+  if (visible.length === 0) {
+    var msgs = { all: 'No notes yet.', active: 'All notes archived.', archived: 'Nothing archived.' };
+    list.innerHTML = '<div class="empty-state"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div>'+msgs[noteFilter]+'</div></div>';
+    return;
+  }
+
+  visible.forEach(function(note) {
+    var row = document.createElement('div');
+    row.className = 'note-row' + (note.archived ? ' archived' : '');
+    row.innerHTML =
+      '<span class="note-row-title">'+esc(note.title || 'Untitled')+'</span>' +
+      '<span class="note-row-preview">'+esc(note.body || '')+'</span>' +
+      '<button class="note-delete-btn" onclick="deleteNoteRow('+note.id+',event)" title="Delete">&#x2715;</button>';
+
+    row.onclick = function(e) {
+      if (e.target.classList.contains('archive-circle') || e.target.classList.contains('note-delete-btn')) return;
+      openNote(note.id);
+    };
+    list.appendChild(row);
+  });
+}
+
+function deleteNoteRow(id, e) {
+  e.stopPropagation();
+  notes = notes.filter(function(n){ return n.id !== id; });
+  saveNotes();
+  renderNotes();
+}
+
+// ══════════════════════════════════════
+// APP SWITCHER
+// ══════════════════════════════════════
+var activeApp = 'tasks';
+
+function switchApp(app) {
+  activeApp = app;
+  document.querySelectorAll('.app-tab').forEach(function(btn) {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().trim() === app);
+  });
+  document.getElementById('tasks-view').style.display = app === 'tasks' ? '' : 'none';
+  document.getElementById('notes-view').style.display = app === 'notes' ? '' : 'none';
+  if (app === 'notes') renderNotes();
+}
+
+// ══════════════════════════════════════
+// CLOCK & DATE
+// ══════════════════════════════════════
+function setDate() {
+  document.getElementById('date-display').textContent =
+    new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
+function updateClock() {
+  var now  = new Date();
+  var hrs  = now.getHours();
+  var h    = String(hrs % 12 || 12).padStart(2, '0');
+  var m    = String(now.getMinutes()).padStart(2, '0');
+  var s    = String(now.getSeconds()).padStart(2, '0');
+  var ampm = hrs >= 12 ? 'PM' : 'AM';
+  document.getElementById('clock-time').textContent = h+':'+m+':'+s+' '+ampm;
+  document.getElementById('seconds-bar').style.width = ((now.getSeconds()/60)*100)+'%';
+}
+
+// ══════════════════════════════════════
+// RIPPLE (touch feedback)
+// ══════════════════════════════════════
+document.addEventListener('pointerdown', function(e) {
+  var t = e.target.closest && e.target.closest('.app-tab,.priority-btn,.filter-btn,.note-filter-btn,.ghost-btn,.add-btn,.note-add-row,.toast-undo,li,.note-row');
+  if (!t) return;
+  var r = t.getBoundingClientRect();
+  var size = Math.max(r.width, r.height) * 2;
+  var s = document.createElement('span');
+  s.className = 'ripple';
+  s.style.width = s.style.height = size + 'px';
+  s.style.left = (e.clientX - r.left - size / 2) + 'px';
+  s.style.top  = (e.clientY - r.top  - size / 2) + 'px';
+  t.appendChild(s);
+  setTimeout(function() { if (s.parentNode) s.parentNode.removeChild(s); }, 600);
+});
+
+// ══════════════════════════════════════
+// KEYBOARD
+// ══════════════════════════════════════
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.activeElement.id === 'task-input') addTask();
+  if (e.altKey && e.key === '1') { e.preventDefault(); selectPriority('low');  }
+  if (e.altKey && e.key === '2') { e.preventDefault(); selectPriority('mid');  }
+  if (e.altKey && e.key === '3') { e.preventDefault(); selectPriority('high'); }
+  if (e.key === 'Escape' && currentNoteId !== null) closeEditor();
+});
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+setDate();
+render();
+updateClock();
+setInterval(updateClock, 1000);
 </script>
 </body>
 </html>
