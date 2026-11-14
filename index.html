@@ -269,9 +269,7 @@
   li.completing { opacity: 0 !important; transform: scale(0.97) !important; }
   li.done { opacity: 0.6; }
   li.done .task-text { text-decoration: line-through; color: var(--on-surface-variant); }
-  li[data-p="low"].done .check-circle  { background: var(--low);  border-color: var(--low);  }
-  li[data-p="mid"].done .check-circle  { background: var(--mid);  border-color: var(--mid);  }
-  li[data-p="high"].done .check-circle { background: var(--high); border-color: var(--high); }
+  li.done .check-circle { background: var(--primary); border-color: var(--primary); }
   li.done .check-circle::after { opacity: 1; transform: translate(-50%, -62%) rotate(45deg) scale(1); }
   .check-circle {
     width: 20px;
@@ -593,11 +591,6 @@
       <input type="text" id="task-input" placeholder="Add a task..." maxlength="80" autocomplete="off">
       <button class="add-btn" onclick="addTask()" title="Add (Enter)">+</button>
     </div>
-    <div class="toolbar">
-      <button class="priority-btn active-low" data-p="low"  onclick="selectPriority('low')">Low</button>
-      <button class="priority-btn"            data-p="mid"  onclick="selectPriority('mid')">Mid</button>
-      <button class="priority-btn"            data-p="high" onclick="selectPriority('high')">High</button>
-    </div>
     <div class="divider"></div>
     <div class="filters">
       <button class="filter-btn active" data-f="all"    onclick="setFilter('all')">All <span id="cnt-all"></span></button>
@@ -609,7 +602,6 @@
       <span class="task-counter" id="task-counter"></span>
       <div class="footer-actions">
         <button class="ghost-btn danger" id="clear-btn" onclick="clearDone()">Clear done</button>
-        <button class="ghost-btn" id="sort-btn" onclick="toggleSort()">Sort</button>
       </div>
     </div>
   </div>
@@ -834,7 +826,6 @@ function render() {
     li.ondrop      = function(e) { e.preventDefault(); reorderTask(dragSrcId, task.id); };
     li.innerHTML =
       '<div class="check-circle"></div>' +
-      '<div class="p-dot '+task.priority+'"></div>' +
       '<span class="task-text" ondblclick="editTask('+task.id+',this)">'+esc(task.text)+'</span>' +
       '<button class="delete-btn" onclick="deleteTask('+task.id+',event)" title="Delete">&#x2715;</button>';
     list.appendChild(li);
